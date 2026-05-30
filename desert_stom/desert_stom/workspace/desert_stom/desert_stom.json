@@ -1,0 +1,191 @@
+{
+ "charts": [],
+ "content": "[{\"id\":\"at_nc_header\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Dashboard</b></span>\",\"col\":12}},{\"id\":\"at_nc1\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Total Orders\",\"col\":3}},{\"id\":\"at_nc2\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Orders Under Processing\",\"col\":3}},{\"id\":\"at_nc3\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Ready to Deliver\",\"col\":3}},{\"id\":\"at_nc4\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Orders Completed\",\"col\":3}},{\"id\":\"at_spacer0\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"at_header1\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Quick Access</b></span>\",\"col\":12}},{\"id\":\"at_sc1\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Sales Order\",\"col\":3}},{\"id\":\"at_sc2\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Tailoring Measurement\",\"col\":3}},{\"id\":\"at_sc3\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Customer\",\"col\":3}},{\"id\":\"at_sc4\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Daily Sales Collection\",\"col\":3}},{\"id\":\"at_sc5\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Sales Order Profit Status\",\"col\":3}},{\"id\":\"at_spacer1\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"at_header2\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Masters &amp; Reports</b></span>\",\"col\":12}},{\"id\":\"at_card1\",\"type\":\"card\",\"data\":{\"card_name\":\"Tailoring\",\"col\":4}},{\"id\":\"at_card2\",\"type\":\"card\",\"data\":{\"card_name\":\"Selling\",\"col\":4}},{\"id\":\"at_card3\",\"type\":\"card\",\"data\":{\"card_name\":\"Reports\",\"col\":4}},{\"id\":\"at_spacer2\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"at_header3\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Help</b></span>\",\"col\":12}},{\"id\":\"at_sc6\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"User Guide\",\"col\":3}}]",
+ "creation": "2026-03-15 00:00:00.000000",
+ "custom_blocks": [],
+ "docstatus": 0,
+ "doctype": "Workspace",
+ "for_user": "",
+ "hide_custom": 0,
+ "icon": "retail",
+ "idx": 0,
+ "is_hidden": 0,
+ "label": "Asafat Tailoring",
+ "number_cards": [
+  {
+   "label": "Total Orders",
+   "number_card_name": "Total Orders"
+  },
+  {
+   "label": "Orders Under Processing",
+   "number_card_name": "Orders Under Processing"
+  },
+  {
+   "label": "Ready to Deliver",
+   "number_card_name": "Ready to Deliver"
+  },
+  {
+   "label": "Orders Completed",
+   "number_card_name": "Orders Completed"
+  }
+ ],
+ "links": [
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Tailoring",
+   "link_count": 0,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Tailoring Measurement",
+   "link_count": 0,
+   "link_to": "Tailoring Measurement",
+   "link_type": "DocType",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Selling",
+   "link_count": 0,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Sales Order",
+   "link_count": 0,
+   "link_to": "Sales Order",
+   "link_type": "DocType",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Sales Invoice",
+   "link_count": 0,
+   "link_to": "Sales Invoice",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Payment Entry",
+   "link_count": 0,
+   "link_to": "Payment Entry",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Customer",
+   "link_count": 0,
+   "link_to": "Customer",
+   "link_type": "DocType",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Item",
+   "link_count": 0,
+   "link_to": "Item",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Reports",
+   "link_count": 0,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Daily Sales Collection",
+   "link_count": 0,
+   "link_to": "Daily Sales Collection",
+   "link_type": "Report",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Sales Order Profit Status",
+   "link_count": 0,
+   "link_to": "Sales Order Profit Status",
+   "link_type": "Report",
+   "onboard": 1,
+   "type": "Link"
+  }
+ ],
+ "modified": "2026-03-15 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Asafat Tailoring",
+ "name": "Asafat Tailoring",
+ "owner": "Administrator",
+ "parent_page": "",
+ "public": 1,
+ "restrict_to_domain": "",
+ "roles": [],
+ "sequence_id": 1,
+ "shortcuts": [
+  {
+   "color": "Blue",
+   "format": "{} Active",
+   "label": "Sales Order",
+   "link_to": "Sales Order",
+   "stats_filter": "{\n    \"docstatus\": 1,\n    \"stitching_status\": [\"not in\", [\"Delivered\"]]\n}",
+   "type": "DocType"
+  },
+  {
+   "color": "Purple",
+   "format": "{} Total",
+   "label": "Tailoring Measurement",
+   "link_to": "Tailoring Measurement",
+   "type": "DocType"
+  },
+  {
+   "color": "Green",
+   "label": "Customer",
+   "link_to": "Customer",
+   "type": "DocType"
+  },
+  {
+   "color": "Orange",
+   "label": "Daily Sales Collection",
+   "link_to": "Daily Sales Collection",
+   "type": "Report"
+  },
+  {
+   "color": "Yellow",
+   "label": "Sales Order Profit Status",
+   "link_to": "Sales Order Profit Status",
+   "type": "Report"
+  },
+  {
+   "color": "Grey",
+   "label": "User Guide",
+   "link_to": "user-guide",
+   "type": "URL"
+  }
+ ],
+ "title": "Asafat Tailoring",
+ "type": "Workspace"
+}

@@ -1,0 +1,372 @@
+{
+ "actions": [],
+ "autoname": "naming_series:",
+ "creation": "2026-03-14 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "naming_series", "sales_order", "customer", "customer_name", "column_break_hdr1",
+  "phone_no", "measurement_date", "promise_date", "column_break_hdr2",
+  "delivery_date",
+  "cloth_info_section",
+  "measurement_items",
+  "measurements_json",
+  "cloth_details_section",
+  "cloth_name", "cloth_no", "column_break_cloth1",
+  "qty", "stitching_model", "thobe", "column_break_cloth2",
+  "delivery_type",
+  "measurements_section",
+  "length", "shoulder", "sleeve_length", "column_break_meas1",
+  "loose_1", "loose_2", "bottom", "column_break_meas2",
+  "bottom_size", "sleeve_loose", "shoulder_alt", "column_break_meas3",
+  "sleeve_alt",
+  "collar_neck_section",
+  "collar_style", "collar_type", "column_break_cn1",
+  "neck_style", "neck_type",
+  "hip_button_section",
+  "hip", "hip_type", "column_break_hb1",
+  "special_button",
+  "extras_section",
+  "extra_items",
+  "notes_section",
+  "description_note"
+ ],
+ "fields": [
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Series",
+   "options": "MEAS-.YYYY.-.#####",
+   "reqd": 1,
+   "set_only_once": 1,
+   "default": "MEAS-.YYYY.-.#####"
+  },
+  {
+   "fieldname": "sales_order",
+   "fieldtype": "Link",
+   "label": "Sales Order",
+   "options": "Sales Order",
+   "reqd": 1
+  },
+  {
+   "fieldname": "customer",
+   "fieldtype": "Link",
+   "label": "Customer",
+   "options": "Customer",
+   "reqd": 1
+  },
+  {
+   "fieldname": "customer_name",
+   "fieldtype": "Data",
+   "label": "Customer Name",
+   "read_only": 1,
+   "fetch_from": "customer.customer_name"
+  },
+  {
+   "fieldname": "column_break_hdr1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "phone_no",
+   "fieldtype": "Data",
+   "label": "Phone No",
+   "options": "Phone",
+   "fetch_from": "sales_order.customer_phone",
+   "fetch_if_empty": 1
+  },
+  {
+   "fieldname": "measurement_date",
+   "fieldtype": "Date",
+   "label": "Date",
+   "reqd": 1,
+   "default": "Today"
+  },
+  {
+   "fieldname": "promise_date",
+   "fieldtype": "Date",
+   "label": "Promise Date"
+  },
+  {
+   "fieldname": "column_break_hdr2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "delivery_date",
+   "fieldtype": "Date",
+   "label": "Delivery Date"
+  },
+  {
+   "fieldname": "cloth_info_section",
+   "fieldtype": "Section Break",
+   "label": "Measurement Items"
+  },
+  {
+   "fieldname": "measurement_items",
+   "fieldtype": "Table",
+   "label": "Items",
+   "options": "Measurement Item"
+  },
+  {
+   "fieldname": "measurements_json",
+   "fieldtype": "Long Text",
+   "label": "Measurements JSON",
+   "hidden": 1,
+   "no_copy": 1
+  },
+  {
+   "fieldname": "cloth_details_section",
+   "fieldtype": "Section Break",
+   "label": "Cloth Details"
+  },
+  {
+   "fieldname": "cloth_name",
+   "fieldtype": "Select",
+   "label": "Cloth Name"
+  },
+  {
+   "fieldname": "cloth_no",
+   "fieldtype": "Data",
+   "label": "Cloth No"
+  },
+  {
+   "fieldname": "column_break_cloth1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "qty",
+   "fieldtype": "Float",
+   "label": "Qty",
+   "reqd": 1,
+   "default": "1"
+  },
+  {
+   "fieldname": "stitching_model",
+   "fieldtype": "Data",
+   "label": "Stitching Model"
+  },
+  {
+   "fieldname": "thobe",
+   "fieldtype": "Select",
+   "label": "Thobe",
+   "options": "\nSaudi\nGulf\nKuwait\nOther"
+  },
+  {
+   "fieldname": "column_break_cloth2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "delivery_type",
+   "fieldtype": "Select",
+   "label": "Delivery Type",
+   "options": "\nNormal\nUrgent"
+  },
+  {
+   "fieldname": "measurements_section",
+   "fieldtype": "Section Break",
+   "label": "Body Measurements"
+  },
+  {
+   "fieldname": "length",
+   "fieldtype": "Float",
+   "label": "Length",
+   "description": "cm",
+   "reqd": 1
+  },
+  {
+   "fieldname": "shoulder",
+   "fieldtype": "Float",
+   "label": "Shoulder",
+   "description": "cm",
+   "reqd": 1
+  },
+  {
+   "fieldname": "sleeve_length",
+   "fieldtype": "Float",
+   "label": "Sleeve Length",
+   "description": "cm",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_meas1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "loose_1",
+   "fieldtype": "Float",
+   "label": "Loose 1",
+   "description": "cm",
+   "reqd": 1
+  },
+  {
+   "fieldname": "loose_2",
+   "fieldtype": "Float",
+   "label": "Loose 2",
+   "description": "cm",
+   "reqd": 1
+  },
+  {
+   "fieldname": "bottom",
+   "fieldtype": "Float",
+   "label": "Bottom",
+   "description": "cm",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_meas2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "bottom_size",
+   "fieldtype": "Data",
+   "label": "Bottom Size"
+  },
+  {
+   "fieldname": "sleeve_loose",
+   "fieldtype": "Float",
+   "label": "Sleeve Loose",
+   "description": "cm"
+  },
+  {
+   "fieldname": "shoulder_alt",
+   "fieldtype": "Float",
+   "label": "Shoulder Alt",
+   "description": "cm"
+  },
+  {
+   "fieldname": "column_break_meas3",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "sleeve_alt",
+   "fieldtype": "Float",
+   "label": "Sleeve Alt",
+   "description": "cm"
+  },
+  {
+   "fieldname": "collar_neck_section",
+   "fieldtype": "Section Break",
+   "label": "Collar & Neck"
+  },
+  {
+   "fieldname": "collar_style",
+   "fieldtype": "Select",
+   "label": "Collar Style",
+   "options": "\nSHAPE 2.5\" INSIDE PLASTIC\nSHAPE 2.25\" STEEL INSIDE\nSHAPE 2.25\" STEEL OUT\nSHAPE 2.25\" PLASTIC OUT\nSAADA 2.25\" INSIDE STEEL\nSAADA 2.25\" OUT SIDE PLASTIC\nSAADA 2.5 INSIDE PLASTIC\nSAADA 2.5 INSIDE STEEL\nFRANCY 2.25\" INSIDE PLASTIC\nFRANCY 2.25\" INSIDE STEEL\nSAADA INSIDE PLASTIC 1.75-1\nFRANCY 1.50 INSIDE PLASTIC\nFRANCY PLASTIC OUT 1.25\nSADA INSIDE PLASTIC 2.1\nOUT PLASTIC 1.50\nSADA PLASTIC INSIDE 2.5-1\nSADA PLASTIC INSIDE 2.25-1\nPLASTIC INSIDE SADA 1.5-1\n1.75-1 FRANCY INSIDE PLASTIC\nNONE\n2.25 FRANCY INSIDE PLASTIC\n3 INCH COLOR MALAKI\n2.25-1 SADA INSIDE PLASTIC SHAPE\n1.25-1 SADA INSIDE PLASTIC"
+  },
+  {
+   "fieldname": "collar_type",
+   "fieldtype": "Select",
+   "label": "Collar Type",
+   "options": "\nSelect Type\nNone\nOption 1\nOption 2"
+  },
+  {
+   "fieldname": "column_break_cn1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "neck_style",
+   "fieldtype": "Select",
+   "label": "Neck Style",
+   "options": "\nSelect Style\nSHAPE 2.5\" INSIDE PLASTIC\nSHAPE 2.25\" STEEL INSIDE\nSHAPE 2.25\" STEEL OUT\nSHAPE 2.25\" PLASTIC OUT\nSAADA 2.25\" INSIDE STEEL\nSAADA 2.25\" OUT SIDE PLASTIC\nSAADA 2.5 INSIDE PLASTIC\nSAADA 2.5 INSIDE STEEL\nFRANCY 2.25\" INSIDE PLASTIC\nFRANCY 2.25\" INSIDE STEEL\nSAADA INSIDE PLASTIC 1.75-1\nFRANCY 1.50 INSIDE PLASTIC\nFRANCY PLASTIC OUT 1.25\nSADA INSIDE PLASTIC 2.1\nOUT PLASTIC 1.50\nSADA PLASTIC INSIDE 2.5-1\nSADA PLASTIC INSIDE 2.25-1\nPLASTIC INSIDE SADA 1.5-1\n1.75-1 FRANCY INSIDE PLASTIC\nNONE\n2.25 FRANCY INSIDE PLASTIC\n3 INCH COLOR MALAKI\n2.25-1 SADA INSIDE PLASTIC SHAPE\n1.25-1 SADA INSIDE PLASTIC"
+  },
+  {
+   "fieldname": "neck_type",
+   "fieldtype": "Select",
+   "label": "Neck Type",
+   "options": "\nSelect Type\nNone\nOption 1\nOption 2"
+  },
+  {
+   "fieldname": "hip_button_section",
+   "fieldtype": "Section Break",
+   "label": "Hip & Button"
+  },
+  {
+   "fieldname": "hip",
+   "fieldtype": "Select",
+   "label": "Hip",
+   "options": "\nSelect Type\nNone\nOption 1\nOption 2\nOption 3"
+  },
+  {
+   "fieldname": "hip_type",
+   "fieldtype": "Select",
+   "label": "Hip Type",
+   "options": "\nSelect Type\nNone\nOption 1\nOption 2\nOption 3"
+  },
+  {
+   "fieldname": "column_break_hb1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "special_button",
+   "fieldtype": "Select",
+   "label": "Special Button",
+   "options": "\nSelect Button\nSPECIAL BUTTONS\nNORMAL BUTTONS\nNO BUTTONS\nGAFIT BUTTONS"
+  },
+  {
+   "fieldname": "extras_section",
+   "fieldtype": "Section Break",
+   "label": "Extras / Add-ons",
+   "collapsible": 1
+  },
+  {
+   "fieldname": "extra_items",
+   "fieldtype": "Table",
+   "label": "Extra Items",
+   "options": "Measurement Extra Item"
+  },
+  {
+   "fieldname": "notes_section",
+   "fieldtype": "Section Break",
+   "label": "Notes"
+  },
+  {
+   "fieldname": "description_note",
+   "fieldtype": "Small Text",
+   "label": "Description Note"
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2026-03-14 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Asafat Tailoring",
+ "name": "Tailoring Measurement",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "cancel": 1,
+   "write": 1,
+   "amend": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "All",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "search_fields": "customer_name, phone_no",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "title_field": "customer_name",
+ "track_changes": 1,
+ "states": []
+}

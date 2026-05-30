@@ -1,0 +1,261 @@
+{% raw %}<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Desert Stom — Developer & User Documentation</title>
+<style>
+  :root{
+    --gold:#D4A84B; --gold-d:#B8892A; --ink:#1a1a2e; --muted:#6b7280;
+    --bg:#f6f7f9; --card:#fff; --line:#e6e8eb; --sidebar:#15161c;
+    --green:#10B981; --red:#EF4444; --blue:#2563EB;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:'Segoe UI',system-ui,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
+  a{color:var(--gold-d);text-decoration:none}
+  a:hover{text-decoration:underline}
+  .wrap{display:flex;min-height:100vh}
+  /* sidebar */
+  .sb{width:260px;background:var(--sidebar);color:#cfd2da;position:fixed;top:0;bottom:0;left:0;overflow-y:auto;padding:22px 0}
+  .sb .brand{padding:0 22px 18px;border-bottom:1px solid #2a2c36;margin-bottom:14px}
+  .sb .brand b{color:#fff;font-size:18px;display:block}
+  .sb .brand span{color:var(--gold);font-size:11px;letter-spacing:.12em;text-transform:uppercase}
+  .sb a{display:block;color:#cfd2da;padding:7px 22px;font-size:13.5px;border-left:3px solid transparent}
+  .sb a:hover{background:#1e2029;color:#fff;text-decoration:none;border-left-color:var(--gold)}
+  .sb .grp{padding:14px 22px 4px;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:#6b6f7d}
+  /* main */
+  .main{margin-left:260px;flex:1;min-width:0}
+  .hero{background:linear-gradient(120deg,var(--ink),#2a2c4a 60%,var(--gold-d));color:#fff;padding:46px 48px}
+  .hero h1{margin:0 0 8px;font-size:30px}
+  .hero p{margin:0;opacity:.9;max-width:680px}
+  .hero .pills{margin-top:16px;display:flex;gap:8px;flex-wrap:wrap}
+  .pill{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.25);padding:4px 12px;border-radius:20px;font-size:12px}
+  .content{padding:34px 48px;max-width:980px}
+  section{margin-bottom:40px;scroll-margin-top:20px}
+  h2{font-size:21px;border-bottom:2px solid var(--gold);padding-bottom:6px;margin:0 0 16px}
+  h3{font-size:16px;color:var(--gold-d);margin:22px 0 8px}
+  p,li{font-size:14.5px}
+  code{background:#eef0f3;padding:2px 6px;border-radius:4px;font-family:'SFMono-Regular',Consolas,monospace;font-size:12.5px;color:#b8328a}
+  pre{background:var(--ink);color:#e6e6e6;padding:14px 16px;border-radius:8px;overflow-x:auto;font-size:12.5px;line-height:1.5}
+  pre code{background:none;color:inherit;padding:0}
+  table{width:100%;border-collapse:collapse;margin:10px 0;background:var(--card);border:1px solid var(--line);border-radius:8px;overflow:hidden}
+  th{background:#f0f1f4;text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);padding:9px 12px}
+  td{padding:9px 12px;border-top:1px solid var(--line);font-size:13px;vertical-align:top}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:18px 20px;margin:14px 0}
+  .badge{display:inline-block;padding:2px 9px;border-radius:5px;font-size:11px;font-weight:600;color:#fff}
+  .b-blue{background:var(--blue)} .b-purple{background:#7C3AED} .b-orange{background:#F59E0B}
+  .b-yellow{background:#EAB308} .b-lblue{background:#38BDF8} .b-green{background:var(--green)} .b-grey{background:#6B7280}
+  .flow{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:12px 0}
+  .flow .step{background:#fff;border:1px solid var(--line);border-radius:8px;padding:8px 12px;font-size:12.5px;font-weight:600}
+  .flow .arr{color:var(--gold-d);font-weight:700}
+  .note{border-left:4px solid var(--gold);background:#FFFDF5;padding:10px 14px;border-radius:0 8px 8px 0;font-size:13.5px;margin:12px 0}
+  .foot{padding:24px 48px;color:var(--muted);font-size:12px;border-top:1px solid var(--line)}
+  @media (max-width:820px){.sb{display:none}.main{margin-left:0}.hero,.content,.foot{padding-left:20px;padding-right:20px}}
+  @media print{.sb{display:none}.main{margin-left:0}.hero{color:#000;background:none;border-bottom:2px solid #000}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="sb">
+    <div class="brand"><b>Desert Stom</b><span>Tailoring ERP</span></div>
+    <div class="grp">Guide</div>
+    <a href="#overview">Overview</a>
+    <a href="#workflow">Order Workflow</a>
+    <a href="#install">Installation</a>
+    <div class="grp">Reference</div>
+    <a href="#doctypes">DocTypes</a>
+    <a href="#customfields">Custom Fields</a>
+    <a href="#api">API Methods</a>
+    <a href="#hooks">Hooks & Events</a>
+    <a href="#reports">Reports</a>
+    <a href="#print">Print Formats</a>
+    <div class="grp">Ops</div>
+    <a href="#deploy">Build & Deploy</a>
+    <a href="#troubleshoot">Troubleshooting</a>
+    <a href="/user-guide">Shop User Guide ↗</a>
+  </nav>
+
+  <div class="main">
+    <header class="hero">
+      <h1>Desert Stom — Documentation</h1>
+      <p>Custom ERPNext v15 / Frappe v15 app that layers a complete tailoring workflow on top of standard Selling — measurements, per-cloth specs, advance collection, stitching status, completion billing, returns, and profit tracking.</p>
+      <div class="pills">
+        <span class="pill">Frappe v15</span>
+        <span class="pill">ERPNext v15</span>
+        <span class="pill">1 Module · 3 DocTypes</span>
+        <span class="pill">6 API methods</span>
+        <span class="pill">2 Reports · 4 Print Formats</span>
+      </div>
+    </header>
+
+    <div class="content">
+
+      <section id="overview">
+        <h2>Overview</h2>
+        <p>Desert Stom turns a standard ERPNext <code>Sales Order</code> into a tailoring job ticket. Each order carries a <b>Stitching Status</b>, linked <b>Tailoring Measurement</b> cards (with per-garment body measurements stored as JSON), advance payments, and live profit/loss reference figures. Completion creates Sales Invoice, Payment Entry, and Delivery Note in one step; returns create credit notes and optional refunds.</p>
+        <div class="card">
+          <b>App identity</b>
+          <table>
+            <tr><th>Key</th><th>Value</th></tr>
+            <tr><td>App name</td><td><code>desert_stom</code></td></tr>
+            <tr><td>Module</td><td>Desert Stom</td></tr>
+            <tr><td>Default site</td><td>designer-stom.enfonoerp.com</td></tr>
+            <tr><td>Repo</td><td>github.com/EnfonoTech/desert_stom</td></tr>
+          </table>
+        </div>
+      </section>
+
+      <section id="workflow">
+        <h2>Order Workflow</h2>
+        <p>Stitching status drives the whole lifecycle. Buttons appear on the submitted Sales Order based on the current status.</p>
+        <div class="flow">
+          <span class="step"><span class="badge b-blue">Order</span></span><span class="arr">→</span>
+          <span class="step"><span class="badge b-purple">Measurement</span></span><span class="arr">→</span>
+          <span class="step"><span class="badge b-orange">Job Order</span></span><span class="arr">→</span>
+          <span class="step"><span class="badge b-yellow">Processing</span></span><span class="arr">→</span>
+          <span class="step"><span class="badge b-lblue">Process Completed</span></span><span class="arr">→</span>
+          <span class="step"><span class="badge b-green">Ready for Delivery</span></span><span class="arr">→</span>
+          <span class="step"><span class="badge b-grey">Delivered</span></span>
+        </div>
+        <table>
+          <tr><th>#</th><th>Step</th><th>Trigger</th><th>Result</th></tr>
+          <tr><td>1</td><td>Create Sales Order</td><td>Manual</td><td>Status = <b>Order</b></td></tr>
+          <tr><td>2</td><td>Add Measurement</td><td>Button → Tailoring Measurement, submit</td><td>Status → <b>Measurement</b>; extras appended to SO</td></tr>
+          <tr><td>3</td><td>Collect Advance</td><td>Button → Payment Entry</td><td>Status → <b>Job Order</b>; advance tracked; WhatsApp confirm</td></tr>
+          <tr><td>4</td><td>Processing → Process Completed → Ready for Delivery</td><td>Manual status buttons</td><td>Ready-for-Delivery sends WhatsApp</td></tr>
+          <tr><td>5</td><td>Complete Order</td><td>Dialog: SI / PE / DN</td><td>Documents created; Status → <b>Delivered</b></td></tr>
+          <tr><td>6</td><td>Sales Return <i>(optional)</i></td><td>Button when Delivered</td><td>Credit Note + optional refund PE</td></tr>
+        </table>
+      </section>
+
+      <section id="install">
+        <h2>Installation</h2>
+        <pre><code>cd /home/v15/frappe-bench
+bench get-app https://github.com/EnfonoTech/desert_stom --branch master
+bench --site designer-stom.enfonoerp.com install-app desert_stom
+bench --site designer-stom.enfonoerp.com migrate
+bench build --app desert_stom
+bench --site designer-stom.enfonoerp.com clear-cache
+bench restart</code></pre>
+        <p><code>after_install</code> creates custom fields, search-field property setters, the <b>Extras</b> item group, enables the UOM stock setting, and builds 4 dashboard number cards. Print formats and default-print-format property setters arrive via fixtures.</p>
+      </section>
+
+      <section id="doctypes">
+        <h2>DocTypes</h2>
+
+        <h3>Tailoring Measurement <span class="badge b-purple">Submittable</span></h3>
+        <p>Main measurement card. Naming <code>MEAS-.YYYY.-.#####</code>. Holds header, cloth details, body measurements, collar/neck/hip/button options, an extras child table, and a hidden <code>measurements_json</code> that stores per-cloth measurement sets switched by the <code>cloth_name</code> field.</p>
+        <table>
+          <tr><th>Field</th><th>Type</th><th>Notes</th></tr>
+          <tr><td>sales_order</td><td>Link → Sales Order</td><td>Required</td></tr>
+          <tr><td>customer / customer_name</td><td>Link / Data</td><td>Fetched</td></tr>
+          <tr><td>phone_no</td><td>Data (Phone)</td><td>From SO customer_phone</td></tr>
+          <tr><td>measurement_date / promise_date / delivery_date</td><td>Date</td><td></td></tr>
+          <tr><td>measurement_items</td><td>Table → Measurement Item</td><td>Garments measured</td></tr>
+          <tr><td>cloth_name</td><td>Select</td><td>Active garment switcher (options built from items)</td></tr>
+          <tr><td>length, shoulder, sleeve_length, loose_1, loose_2, bottom, …</td><td>Float</td><td>Body measurements (cm)</td></tr>
+          <tr><td>collar_style, neck_style, hip, special_button …</td><td>Select</td><td>Garment options (visual popup pickers in UI)</td></tr>
+          <tr><td>extra_items</td><td>Table → Measurement Extra Item</td><td>Add-ons pushed to SO on submit</td></tr>
+          <tr><td>measurements_json</td><td>Long Text (hidden)</td><td>Per-cloth measurement store</td></tr>
+        </table>
+        <div class="note"><b>Controller logic:</b> <code>on_submit</code> upgrades SO <code>Order → Measurement</code> and appends extra items to the Sales Order (with full UOM/rate fields + <code>calculate_taxes_and_totals()</code>). <code>on_cancel</code> reverses both.</div>
+
+        <h3>Measurement Item <span class="badge b-grey">Child</span></h3>
+        <p>One row per garment carried from the Sales Order: <code>item_code</code>, <code>item_name</code>, <code>qty</code>, <code>sales_order_item</code>.</p>
+
+        <h3>Measurement Extra Item <span class="badge b-grey">Child</span></h3>
+        <p>Add-on items appended to the SO on submit: <code>item_code</code>, <code>item_name</code>, <code>qty</code>, <code>rate</code>, <code>amount</code> (auto-calculated).</p>
+      </section>
+
+      <section id="customfields">
+        <h2>Custom Fields</h2>
+        <h3>Sales Order (12)</h3>
+        <table>
+          <tr><th>Field</th><th>Type</th><th>Purpose</th></tr>
+          <tr><td>customer_phone</td><td>Data (Phone)</td><td>Fetched from Customer; in standard filter; searchable</td></tr>
+          <tr><td>stitching_status</td><td>Select</td><td>7-state workflow; allow_on_submit</td></tr>
+          <tr><td>advance_collected</td><td>Currency</td><td>Recalculated from Payment Entries</td></tr>
+          <tr><td>outstanding_amount</td><td>Currency</td><td>grand_total − advance</td></tr>
+          <tr><td>measurement_count</td><td>Int</td><td>Linked measurement cards</td></tr>
+          <tr><td>item_cost / stitching_cost / total_cost</td><td>Currency</td><td>P&amp;L: valuation + 35 SAR/qty stitching</td></tr>
+          <tr><td>revenue / estimated_profit</td><td>Currency</td><td>From linked Sales Invoice</td></tr>
+        </table>
+        <h3>Customer (1)</h3>
+        <table><tr><th>Field</th><th>Type</th><th>Purpose</th></tr>
+          <tr><td>custom_phone</td><td>Data (Phone)</td><td>Searchable; quick-entry; source for SO customer_phone</td></tr></table>
+      </section>
+
+      <section id="api">
+        <h2>API Methods</h2>
+        <p>All whitelisted in <code>desert_stom/api.py</code>. Called from the Sales Order form dialogs.</p>
+        <table>
+          <tr><th>Method</th><th>Args</th><th>Returns / Effect</th></tr>
+          <tr><td><code>create_advance_payment</code></td><td>so_name, amount, mode_of_payment, reference_no</td><td>Creates &amp; submits a Receive Payment Entry against the SO; bumps status to Job Order</td></tr>
+          <tr><td><code>create_sales_invoice</code></td><td>so_name, selected_items, update_stock</td><td>Creates SI from SO, allocates SO advances</td></tr>
+          <tr><td><code>complete_order</code></td><td>so_name, values{create_si/pe/dn, payment, discount, items}</td><td>Creates SI + PE + DN as selected; status → Delivered</td></tr>
+          <tr><td><code>get_so_stats</code></td><td>so_name</td><td>Measurement count + item/stitching/total cost, revenue, profit (persists to SO)</td></tr>
+          <tr><td><code>process_sales_return</code></td><td>so_name, return_items, reason, credit_note, refund, mop</td><td>Credit Note (return SI) + optional refund PE</td></tr>
+          <tr><td><code>get_previous_measurements</code></td><td>customer</td><td>Latest measurement of the customer to pre-fill a new card</td></tr>
+        </table>
+      </section>
+
+      <section id="hooks">
+        <h2>Hooks &amp; Events</h2>
+        <table>
+          <tr><th>Hook</th><th>Target</th><th>Handler</th></tr>
+          <tr><td>doc_events · on_submit</td><td>Sales Order</td><td><code>events.sales_order.on_submit</code> — defaults stitching_status</td></tr>
+          <tr><td>doc_events · on_submit / on_cancel</td><td>Payment Entry</td><td><code>events.payment_entry.update_so_advance</code> — recomputes advance via SQL sum</td></tr>
+          <tr><td>override_doctype_dashboards</td><td>Sales Order</td><td>Adds Tailoring Measurement to connections</td></tr>
+          <tr><td>doctype_js / doctype_list_js</td><td>Sales Order</td><td>Form buttons + colored status indicators</td></tr>
+          <tr><td>app_include_css</td><td>desk</td><td>measurement.css</td></tr>
+          <tr><td>fixtures</td><td>—</td><td>Custom Field, Print Format (module=Desert Stom), Property Setter</td></tr>
+        </table>
+      </section>
+
+      <section id="reports">
+        <h2>Reports</h2>
+        <table>
+          <tr><th>Report</th><th>Type</th><th>Shows</th></tr>
+          <tr><td>Daily Sales Collection</td><td>Script</td><td>Per-day invoice &amp; payment breakdown</td></tr>
+          <tr><td>Sales Order Profit Status</td><td>Script</td><td>Per-order profitability</td></tr>
+        </table>
+      </section>
+
+      <section id="print">
+        <h2>Print Formats</h2>
+        <table>
+          <tr><th>Format</th><th>DocType</th><th>Default</th></tr>
+          <tr><td>Desert Stom Order</td><td>Sales Order</td><td>Yes</td></tr>
+          <tr><td>Desert Stom Invoice</td><td>Sales Invoice</td><td>Yes</td></tr>
+          <tr><td>Desert Stom Delivery</td><td>Delivery Note</td><td>—</td></tr>
+        </table>
+        <p>Gold-themed Jinja formats. Defaults set via Property Setter on install.</p>
+      </section>
+
+      <section id="deploy">
+        <h2>Build &amp; Deploy</h2>
+        <pre><code>cd /home/v15/frappe-bench
+bench build --app desert_stom
+bench --site designer-stom.enfonoerp.com migrate
+bench --site designer-stom.enfonoerp.com clear-cache
+bench restart   # after Python changes</code></pre>
+      </section>
+
+      <section id="troubleshoot">
+        <h2>Troubleshooting</h2>
+        <table>
+          <tr><th>Symptom</th><th>Fix</th></tr>
+          <tr><td>UOM error appending extras</td><td>Ensure <code>conversion_factor: 1</code> on appended SO items</td></tr>
+          <tr><td>Commission TypeError</td><td>Set all <code>base_*</code>/<code>net_*</code> fields on appended items</td></tr>
+          <tr><td>Number cards missing</td><td><code>filters_json</code> must be list-of-lists, not dict</td></tr>
+          <tr><td>SO totals stale</td><td>Call <code>calculate_taxes_and_totals()</code> before <code>save()</code></td></tr>
+          <tr><td>Advance wrong</td><td>Recompute via <code>events.payment_entry._recalculate_advance(so)</code></td></tr>
+        </table>
+      </section>
+
+    </div>
+    <div class="foot">Desert Stom · Enfono Technologies · Generated documentation. See <a href="/user-guide">Shop User Guide</a> for end-user steps.</div>
+  </div>
+</div>
+</body>
+</html>{% endraw %}

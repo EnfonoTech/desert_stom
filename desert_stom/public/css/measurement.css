@@ -1,0 +1,371 @@
+/* ═══════════════════════════════════════════════════════════
+   Asafat Sahran — Tailoring Design System
+   Clean white professional theme
+   ═══════════════════════════════════════════════════════════ */
+
+
+/* ─── FORM LAYOUT (white) ─── */
+[data-doctype="Tailoring Measurement"] .form-layout {
+  background: #F7F8FA !important;
+}
+
+[data-doctype="Tailoring Measurement"] .form-page,
+[data-doctype="Tailoring Measurement"] .form-column {
+  background: transparent !important;
+}
+
+/* Section cards */
+[data-doctype="Tailoring Measurement"] .form-section {
+  background: #FFFFFF !important;
+  border: 1px solid #E5E7EB !important;
+  border-radius: 10px !important;
+  margin-bottom: 12px !important;
+  overflow: hidden;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.03) !important;
+}
+
+/* Section headers */
+[data-doctype="Tailoring Measurement"] .section-head,
+[data-doctype="Tailoring Measurement"] .form-section .head {
+  background: #FAFBFC !important;
+  border-bottom: 1px solid #E5E7EB !important;
+  padding: 10px 16px !important;
+}
+
+[data-doctype="Tailoring Measurement"] .section-head .col-sm-12,
+[data-doctype="Tailoring Measurement"] .section-head .section-label {
+  color: #4B5563 !important;
+  font-size: 11.5px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.03em !important;
+  text-transform: uppercase !important;
+}
+
+/* Field labels */
+[data-doctype="Tailoring Measurement"] .frappe-control .control-label,
+[data-doctype="Tailoring Measurement"] .frappe-control label {
+  color: #4B5563 !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+}
+
+/* Input fields */
+[data-doctype="Tailoring Measurement"] .frappe-control input[type="text"],
+[data-doctype="Tailoring Measurement"] .frappe-control input[type="number"],
+[data-doctype="Tailoring Measurement"] .frappe-control input[type="date"],
+[data-doctype="Tailoring Measurement"] .frappe-control .form-control,
+[data-doctype="Tailoring Measurement"] .frappe-control select,
+[data-doctype="Tailoring Measurement"] .frappe-control textarea {
+  background: #FFFFFF !important;
+  color: #111827 !important;
+  border: 1px solid #E5E7EB !important;
+  border-radius: 6px !important;
+  font-size: 13px !important;
+}
+
+[data-doctype="Tailoring Measurement"] .frappe-control input:focus,
+[data-doctype="Tailoring Measurement"] .frappe-control .form-control:focus,
+[data-doctype="Tailoring Measurement"] .frappe-control select:focus,
+[data-doctype="Tailoring Measurement"] .frappe-control textarea:focus {
+  border-color: #2563EB !important;
+  box-shadow: 0 0 0 3px rgba(37,99,235,0.12) !important;
+}
+
+/* Measurement float fields — large monospace */
+[data-doctype="Tailoring Measurement"] [data-fieldname="length"] input,
+[data-doctype="Tailoring Measurement"] [data-fieldname="shoulder"] input,
+[data-doctype="Tailoring Measurement"] [data-fieldname="sleeve_length"] input,
+[data-doctype="Tailoring Measurement"] [data-fieldname="loose_1"] input,
+[data-doctype="Tailoring Measurement"] [data-fieldname="loose_2"] input,
+[data-doctype="Tailoring Measurement"] [data-fieldname="bottom"] input,
+[data-doctype="Tailoring Measurement"] [data-fieldname="sleeve_loose"] input {
+  font-family: 'JetBrains Mono', 'SF Mono', monospace !important;
+  font-size: 18px !important;
+  font-weight: 600 !important;
+  text-align: center !important;
+}
+
+/* Key measurement cells — blue tint */
+[data-doctype="Tailoring Measurement"] [data-fieldname="length"],
+[data-doctype="Tailoring Measurement"] [data-fieldname="sleeve_length"] {
+  background: rgba(37,99,235,0.04) !important;
+  border-radius: 6px;
+  padding: 4px !important;
+}
+
+[data-doctype="Tailoring Measurement"] [data-fieldname="length"] input,
+[data-doctype="Tailoring Measurement"] [data-fieldname="sleeve_length"] input {
+  color: #2563EB !important;
+  font-weight: 700 !important;
+}
+
+/* Read-only */
+[data-doctype="Tailoring Measurement"] .like-disabled-input {
+  background: #FAFBFC !important;
+  color: #111827 !important;
+  border: 1px solid #E5E7EB !important;
+  border-radius: 6px !important;
+}
+
+[data-doctype="Tailoring Measurement"] .frappe-control .control-value {
+  color: #111827 !important;
+}
+
+[data-doctype="Tailoring Measurement"] [data-fieldname="length"] .like-disabled-input,
+[data-doctype="Tailoring Measurement"] [data-fieldname="sleeve_length"] .like-disabled-input {
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 18px !important;
+  font-weight: 600 !important;
+  text-align: center !important;
+  color: #2563EB !important;
+}
+
+
+/* ─── STATUS BADGES ─── */
+.badge-urgent {
+  background: rgba(220,38,38,0.06); color: #DC2626;
+  border: 1px solid rgba(220,38,38,0.15); border-radius: 20px;
+  padding: 3px 12px; font-size: 11px; font-weight: 600;
+}
+.badge-saudi {
+  background: rgba(37,99,235,0.06); color: #2563EB;
+  border: 1px solid rgba(37,99,235,0.15); border-radius: 20px;
+  padding: 3px 12px; font-size: 11px; font-weight: 600;
+}
+.badge-ref {
+  background: rgba(217,119,6,0.06); color: #92400E;
+  border: 1px solid rgba(217,119,6,0.15); border-radius: 20px;
+  padding: 3px 12px; font-size: 11px; font-weight: 600;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+
+/* ─── SUMMARY BANNER (full-width above sections) ─── */
+.meas-summary-banner {
+  display: flex; align-items: center; flex-wrap: wrap; gap: 0;
+  background: #FFFFFF; border: 1px solid #E5E7EB; border-radius: 10px;
+  padding: 12px 18px; margin-bottom: 8px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+}
+.meas-summary-banner .msb-section { padding: 0 14px; }
+.meas-summary-banner .msb-section:first-child { padding-left: 0; }
+.meas-summary-banner .msb-divider { width: 1px; height: 28px; background: #E5E7EB; }
+.meas-summary-banner .msb-label {
+  font-size: 10px; font-weight: 600; letter-spacing: 0.05em;
+  text-transform: uppercase; color: #9CA3AF; margin-bottom: 1px;
+}
+.meas-summary-banner .msb-value { font-size: 13px; color: #111827; font-weight: 600; }
+.meas-summary-banner .msb-value.mono { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #4B5563; }
+.meas-summary-banner .msb-value.highlight { color: #2563EB; font-family: 'JetBrains Mono', monospace; font-weight: 700; }
+
+
+/* ─── PROGRESS BAR (compact, full-width) ─── */
+#meas-progress-wrap {
+  padding: 8px 16px; background: #FFF; border: 1px solid #E5E7EB;
+  border-radius: 10px; margin-bottom: 12px; box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+}
+#meas-progress-wrap .progress-header {
+  display: flex; justify-content: space-between; font-size: 11px; font-weight: 600; color: #9CA3AF; margin-bottom: 4px;
+}
+#meas-progress-wrap .progress-track { height: 5px; background: #E5E7EB; border-radius: 3px; overflow: hidden; }
+#meas-progress-wrap .progress-fill { height: 100%; background: linear-gradient(90deg, #2563EB, #3B82F6); border-radius: 3px; transition: width 0.5s ease; }
+
+
+/* ─── KATHOORA DIAGRAM (inside right column of header) ─── */
+.thobe-diagram-card {
+  background: #FAFBFC; border: 1px solid #E5E7EB; border-radius: 8px;
+  padding: 12px; margin-top: 8px; text-align: center;
+}
+.thobe-diagram-card .diagram-title {
+  font-size: 10px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.05em; color: #9CA3AF; margin-bottom: 8px;
+}
+.thobe-diagram-card svg { max-width: 140px; height: auto; margin: 0 auto; }
+.thobe-diagram-card .diagram-labels {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 4px; margin-top: 8px; text-align: left;
+}
+.thobe-diagram-card .dlbl {
+  display: flex; align-items: center; gap: 5px;
+  font-size: 10px; color: #4B5563; padding: 3px 6px; background: #FFF; border-radius: 4px;
+  border: 1px solid #F3F4F6;
+}
+.thobe-diagram-card .dlbl .dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
+.thobe-diagram-card .dlbl .dval {
+  font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 11px; color: #111827; margin-left: auto;
+}
+
+
+/* ─── VISUAL OPTION POPUP (shows on dropdown click) ─── */
+.vo-popup-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.3);
+  z-index: 1050;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: voFadeIn 0.15s ease;
+}
+
+@keyframes voFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.vo-popup-panel {
+  background: #FFFFFF;
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+  max-width: 720px;
+  width: 90vw;
+  max-height: 80vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  animation: voSlideUp 0.2s ease;
+}
+
+@keyframes voSlideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.vo-popup-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid #E5E7EB;
+  background: #FAFBFC;
+}
+
+.vo-popup-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #111827;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.vo-popup-close {
+  width: 32px; height: 32px;
+  border: none; background: #F3F4F6; border-radius: 8px;
+  cursor: pointer; font-size: 18px; color: #6B7280;
+  display: flex; align-items: center; justify-content: center;
+}
+.vo-popup-close:hover { background: #E5E7EB; }
+
+.vo-popup-body {
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.vo-popup-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 10px;
+}
+
+.vo-popup-grid.compact {
+  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+}
+
+.vo-popup-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 14px 8px 10px;
+  border: 2px solid #E5E7EB;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.12s ease;
+  background: #FFFFFF;
+  text-align: center;
+}
+
+.vo-popup-card:hover {
+  border-color: #2563EB;
+  background: #EFF6FF;
+  box-shadow: 0 2px 8px rgba(37,99,235,0.1);
+  transform: translateY(-1px);
+}
+
+.vo-popup-card.selected {
+  border-color: #2563EB;
+  background: #EFF6FF;
+  box-shadow: 0 0 0 3px rgba(37,99,235,0.15);
+}
+
+.vo-popup-card .vo-icon {
+  width: 64px;
+  height: 64px;
+  margin-bottom: 8px;
+}
+
+.vo-popup-card .vo-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.vo-popup-card .vo-label {
+  font-size: 9.5px;
+  font-weight: 600;
+  color: #4B5563;
+  line-height: 1.25;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  word-break: break-word;
+  max-width: 100%;
+}
+
+.vo-popup-card.selected .vo-label {
+  color: #2563EB;
+  font-weight: 700;
+}
+
+/* Selected indicator on the select field itself */
+.vo-select-trigger {
+  cursor: pointer !important;
+}
+
+
+/* ─── CLOTH NAME ITEM SWITCHER ─── */
+[data-doctype="Tailoring Measurement"] [data-fieldname="cloth_name"] select {
+  background: #EFF6FF !important;
+  border-color: #2563EB !important;
+  font-weight: 700 !important;
+  font-size: 14px !important;
+  color: #1E40AF !important;
+}
+
+[data-doctype="Tailoring Measurement"] [data-fieldname="cloth_name"] .control-label {
+  color: #2563EB !important;
+  font-weight: 700 !important;
+}
+
+/* ─── ITEM INDICATOR BANNER ─── */
+.meas-item-indicator {
+  background: linear-gradient(90deg, #EFF6FF, #DBEAFE);
+  border: 1px solid #BFDBFE;
+  border-radius: 6px;
+  padding: 8px 14px;
+  margin: 8px 16px 4px;
+  font-size: 12px;
+  color: #1E40AF;
+  font-weight: 500;
+}
+.meas-item-indicator strong {
+  font-weight: 700;
+}
+.meas-item-indicator .mii-count {
+  color: #6B7280;
+  font-weight: 400;
+  margin-left: 4px;
+}
+
+
+/* ─── ENSURE BUTTONS VISIBLE ─── */
+[data-doctype="Tailoring Measurement"] .form-page { margin-right: 0 !important; }
+[data-doctype="Tailoring Measurement"] .page-head { z-index: 10; }
+[data-doctype="Tailoring Measurement"] .page-actions { display: flex !important; visibility: visible !important; }

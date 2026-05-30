@@ -1,0 +1,287 @@
+{% extends "templates/web.html" %}
+
+{% block title %}Asafat Tailoring — User Guide{% endblock %}
+
+{% block page_content %}
+<style>
+	:root {
+		--at-blue: #2563EB;
+		--at-green: #059669;
+		--at-orange: #D97706;
+		--at-red: #DC2626;
+		--at-purple: #7C3AED;
+		--at-gray: #6B7280;
+		--at-bg: #F9FAFB;
+	}
+	.at-guide { max-width: 900px; margin: 0 auto; padding: 20px 16px 60px; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; color: #1F2937; line-height: 1.7; }
+	.at-guide h1 { font-size: 28px; font-weight: 700; color: var(--at-blue); margin-bottom: 6px; }
+	.at-guide .subtitle { color: var(--at-gray); font-size: 15px; margin-bottom: 30px; }
+	.at-guide h2 { font-size: 21px; font-weight: 700; color: #111827; margin-top: 40px; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 2px solid #E5E7EB; }
+	.at-guide h3 { font-size: 17px; font-weight: 600; color: #374151; margin-top: 24px; margin-bottom: 8px; }
+	.at-guide p, .at-guide li { font-size: 14px; }
+	.at-guide ol, .at-guide ul { padding-left: 24px; }
+	.at-guide li { margin-bottom: 6px; }
+	.at-guide code { background: #F3F4F6; padding: 2px 6px; border-radius: 4px; font-size: 13px; color: var(--at-blue); }
+	.at-toc { background: var(--at-bg); border: 1px solid #E5E7EB; border-radius: 8px; padding: 20px 24px; margin-bottom: 30px; }
+	.at-toc-title { font-weight: 700; font-size: 15px; margin-bottom: 10px; color: #111827; }
+	.at-toc ol { margin: 0; padding-left: 20px; }
+	.at-toc li { margin-bottom: 4px; }
+	.at-toc a { color: var(--at-blue); text-decoration: none; font-size: 14px; }
+	.at-toc a:hover { text-decoration: underline; }
+	.at-tip { background: #EFF6FF; border-left: 4px solid var(--at-blue); padding: 12px 16px; border-radius: 0 6px 6px 0; margin: 16px 0; font-size: 13px; }
+	.at-tip strong { color: var(--at-blue); }
+	.at-warn { background: #FFFBEB; border-left: 4px solid var(--at-orange); padding: 12px 16px; border-radius: 0 6px 6px 0; margin: 16px 0; font-size: 13px; }
+	.at-warn strong { color: var(--at-orange); }
+	.at-status-table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 13px; }
+	.at-status-table th, .at-status-table td { padding: 8px 12px; text-align: left; border: 1px solid #E5E7EB; }
+	.at-status-table th { background: var(--at-bg); font-weight: 600; color: #374151; }
+	.at-badge { display: inline-block; padding: 2px 10px; border-radius: 12px; font-size: 12px; font-weight: 600; color: white; }
+</style>
+
+<div class="at-guide">
+
+	<h1>Asafat Tailoring — User Guide</h1>
+	<p class="subtitle">Complete workflow guide for Asafat Sahran Tailoring Shop Management</p>
+
+	<!-- TABLE OF CONTENTS -->
+	<div class="at-toc">
+		<div class="at-toc-title">Contents</div>
+		<ol>
+			<li><a href="#overview">Overview &amp; Workflow</a></li>
+			<li><a href="#workspace">Workspace (Home Menu)</a></li>
+			<li><a href="#customer">Creating a Customer</a></li>
+			<li><a href="#sales-order">Creating a Sales Order</a></li>
+			<li><a href="#measurement">Taking Measurements</a></li>
+			<li><a href="#multi-item">Multi-Item Measurements</a></li>
+			<li><a href="#advance">Collecting Advance Payment</a></li>
+			<li><a href="#statuses">Stitching Status Workflow</a></li>
+			<li><a href="#complete">Completing an Order</a></li>
+			<li><a href="#reports">Reports</a></li>
+			<li><a href="#search">Searching by Phone Number</a></li>
+			<li><a href="#print">Print Formats</a></li>
+		</ol>
+	</div>
+
+
+	<!-- 1. OVERVIEW -->
+	<h2 id="overview">1. Overview &amp; Workflow</h2>
+	<p>The Asafat Tailoring app adds a complete tailoring workflow on top of ERPNext. The typical order flow is:</p>
+	<ol>
+		<li><strong>Customer visits</strong> &rarr; Create / select a Customer</li>
+		<li><strong>New Sales Order</strong> &rarr; Select cloth items, set quantities, rates</li>
+		<li><strong>Take Measurement</strong> &rarr; Record body measurements for each cloth item</li>
+		<li><strong>Collect Advance</strong> &rarr; Record advance payment, order moves to <em>Job Order</em></li>
+		<li><strong>Stitching Process</strong> &rarr; Move through Processing &rarr; Process Completed &rarr; Ready for Delivery</li>
+		<li><strong>Complete Order</strong> &rarr; Create Invoice, collect balance payment, deliver</li>
+	</ol>
+
+	<div class="at-tip">
+		<strong>Tip:</strong> The stitching status is shown as a colored indicator on the Sales Order. You can also see it on the Sales Order list view with color-coded rows.
+	</div>
+
+
+	<!-- 2. WORKSPACE -->
+	<h2 id="workspace">2. Workspace (Home Menu)</h2>
+	<p>Navigate to the <strong>Asafat Tailoring</strong> workspace from the sidebar. It provides:</p>
+	<ul>
+		<li><strong>Quick Access shortcuts:</strong> Sales Order, Tailoring Measurement, Customer, Daily Sales Collection report, Sales Order Profit Status report</li>
+		<li><strong>Tailoring section:</strong> Link to Tailoring Measurement</li>
+		<li><strong>Selling section:</strong> Sales Order, Sales Invoice, Payment Entry, Customer, Item</li>
+		<li><strong>Reports section:</strong> Daily Sales Collection, Sales Order Profit Status</li>
+	</ul>
+
+
+	<!-- 3. CUSTOMER -->
+	<h2 id="customer">3. Creating a Customer</h2>
+	<ol>
+		<li>Go to <code>Customer &gt; + Add Customer</code></li>
+		<li>Enter <strong>Customer Name</strong> (required)</li>
+		<li>Enter <strong>Phone</strong> number in the custom Phone field — this is used for WhatsApp notifications and search</li>
+		<li>Save</li>
+	</ol>
+	<div class="at-tip">
+		<strong>Tip:</strong> The phone number is searchable. When creating a Sales Order, you can type the customer's phone number in the Customer field to find them quickly.
+	</div>
+
+
+	<!-- 4. SALES ORDER -->
+	<h2 id="sales-order">4. Creating a Sales Order</h2>
+	<ol>
+		<li>Go to <code>Sales Order &gt; + Add Sales Order</code></li>
+		<li>Select <strong>Customer</strong> — the phone number auto-fills from the customer record</li>
+		<li>In the <strong>Items</strong> table:
+			<ul>
+				<li>Select the <strong>Item Code</strong> (cloth type)</li>
+				<li>Set <strong>Quantity</strong></li>
+				<li>Set <strong>Rate</strong> (stitching charge)</li>
+				<li>The <strong>UOM</strong> dropdown only shows UOMs defined in the Item master (e.g., Meter, M, L)</li>
+			</ul>
+		</li>
+		<li>Set <strong>Delivery Date</strong></li>
+		<li><strong>Submit</strong> the Sales Order</li>
+	</ol>
+	<p>After submission, the order starts with stitching status <span class="at-badge" style="background:#3B82F6">Order</span>.</p>
+
+	<div class="at-tip">
+		<strong>Tip:</strong> The <strong>Profit &amp; Loss</strong> section at the bottom automatically calculates item cost (from valuation rate), stitching cost (35 SAR per qty), and estimated profit.
+	</div>
+
+
+	<!-- 5. MEASUREMENT -->
+	<h2 id="measurement">5. Taking Measurements</h2>
+	<ol>
+		<li>Open the submitted Sales Order</li>
+		<li>Click <strong>Measurements &gt; Add Measurement</strong></li>
+		<li>A dialog appears showing all items from the SO — check/uncheck items to include</li>
+		<li>If the customer has previous measurements, check <strong>Copy from latest measurement</strong> to pre-fill values</li>
+		<li>Click <strong>Create Measurement</strong></li>
+		<li>The Tailoring Measurement form opens with:
+			<ul>
+				<li>Customer info and items pre-populated</li>
+				<li>A <strong>thobe diagram</strong> showing measurement points</li>
+				<li>A <strong>progress bar</strong> tracking form completion</li>
+			</ul>
+		</li>
+		<li>Fill in the body measurements:
+			<ul>
+				<li><strong>Length, Shoulder, Sleeve Length</strong> (required)</li>
+				<li><strong>Loose 1, Loose 2, Bottom</strong> (required)</li>
+				<li>Bottom Size, Sleeve Loose, Shoulder Alt, Sleeve Alt (optional)</li>
+			</ul>
+		</li>
+		<li>Select design options using visual popup selectors:
+			<ul>
+				<li><strong>Collar Style</strong> — Shape, Saada, Francy, Malaki, None</li>
+				<li><strong>Special Button</strong> — Normal, Special, Gafit, No Button</li>
+				<li><strong>Thobe</strong> model — Saudi, Gulf, Kuwait</li>
+			</ul>
+		</li>
+		<li><strong>Submit</strong> the measurement &rarr; the SO status automatically moves to <span class="at-badge" style="background:#8B5CF6">Measurement</span></li>
+	</ol>
+
+
+	<!-- 6. MULTI-ITEM -->
+	<h2 id="multi-item">6. Multi-Item Measurements</h2>
+	<p>When a Sales Order has multiple cloth items (e.g., Saudi Thobe + Gulf Thobe), each item gets its own set of measurements:</p>
+	<ol>
+		<li>The <strong>Cloth Name</strong> dropdown at the top shows all items</li>
+		<li>Select an item to enter its measurements</li>
+		<li>Switch to the next item using the dropdown</li>
+		<li>An indicator shows <strong>"Editing: Item Name (1 of 2)"</strong></li>
+		<li>For the 2nd item onwards, a <strong>"Copy from [First Item]"</strong> button appears — click it to copy measurements from the first item, then adjust only what differs</li>
+		<li>All measurements are stored per-item and persist independently</li>
+	</ol>
+	<div class="at-tip">
+		<strong>Tip:</strong> If the same item appears multiple times in the SO (e.g., 2x Saudi Thobe), they appear as "Saudi Thobe #1" and "Saudi Thobe #2" in the dropdown.
+	</div>
+
+
+	<!-- 7. ADVANCE PAYMENT -->
+	<h2 id="advance">7. Collecting Advance Payment</h2>
+	<ol>
+		<li>Open the submitted Sales Order (status must be <em>Order</em> or <em>Measurement</em>)</li>
+		<li>Click <strong>Payments &gt; Collect Advance</strong></li>
+		<li>Enter:
+			<ul>
+				<li><strong>Amount</strong></li>
+				<li><strong>Mode of Payment</strong> (Cash, Bank Transfer, etc.)</li>
+				<li><strong>Reference No</strong> (optional)</li>
+			</ul>
+		</li>
+		<li>Click <strong>Create Payment</strong></li>
+	</ol>
+	<p>A Payment Entry is created and linked to the Sales Order. The <strong>Advance Collected</strong> and <strong>Outstanding Amount</strong> fields update automatically.</p>
+	<p>After the first advance payment, the stitching status moves to <span class="at-badge" style="background:#F59E0B;color:#000">Job Order</span> and a WhatsApp message link opens for the customer.</p>
+
+
+	<!-- 8. STITCHING STATUS -->
+	<h2 id="statuses">8. Stitching Status Workflow</h2>
+	<p>Each Sales Order progresses through these statuses:</p>
+
+	<table class="at-status-table">
+		<thead>
+			<tr><th>Status</th><th>Color</th><th>How it changes</th></tr>
+		</thead>
+		<tbody>
+			<tr><td><strong>Order</strong></td><td><span class="at-badge" style="background:#3B82F6">Blue</span></td><td>Automatic — when SO is submitted</td></tr>
+			<tr><td><strong>Measurement</strong></td><td><span class="at-badge" style="background:#8B5CF6">Purple</span></td><td>Automatic — when measurement is submitted</td></tr>
+			<tr><td><strong>Job Order</strong></td><td><span class="at-badge" style="background:#F59E0B;color:#000">Orange</span></td><td>Automatic — after first advance payment</td></tr>
+			<tr><td><strong>Processing</strong></td><td><span class="at-badge" style="background:#EAB308;color:#000">Yellow</span></td><td>Manual — click <em>Status &gt; Processing</em></td></tr>
+			<tr><td><strong>Process Completed</strong></td><td><span class="at-badge" style="background:#06B6D4">Cyan</span></td><td>Manual — click <em>Status &gt; Process Completed</em></td></tr>
+			<tr><td><strong>Ready for Delivery</strong></td><td><span class="at-badge" style="background:#10B981">Green</span></td><td>Manual — click <em>Status &gt; Ready for Delivery</em> (sends WhatsApp)</td></tr>
+			<tr><td><strong>Delivered</strong></td><td><span class="at-badge" style="background:#6B7280">Grey</span></td><td>Automatic — after Complete Order</td></tr>
+		</tbody>
+	</table>
+
+	<div class="at-warn">
+		<strong>WhatsApp:</strong> When status changes to <em>Ready for Delivery</em>, a WhatsApp message link opens automatically so you can notify the customer that their garment is ready.
+	</div>
+
+
+	<!-- 9. COMPLETE ORDER -->
+	<h2 id="complete">9. Completing an Order</h2>
+	<p>When the order is <em>Ready for Delivery</em>, the <strong>Complete Order</strong> button appears:</p>
+	<ol>
+		<li>Click <strong>Complete Order</strong></li>
+		<li>The dialog shows:
+			<ul>
+				<li><strong>Billing Mode</strong> — Full Billing, Invoice Only, Delivery Only, Payment Only</li>
+				<li><strong>Items</strong> — check/uncheck items to include</li>
+				<li><strong>Discount</strong> — None, Percentage, or Amount</li>
+				<li><strong>Payment</strong> — total, advance paid, and amount to collect now</li>
+				<li><strong>Document Options</strong> — toggle Sales Invoice, Payment Entry, Delivery Note creation</li>
+				<li><strong>Print After Create</strong> — automatically open print for Invoice and/or Delivery Note</li>
+			</ul>
+		</li>
+		<li>Click <strong>Complete</strong></li>
+	</ol>
+	<p>The system creates the selected documents (Invoice, Payment Entry, Delivery Note), marks the SO as <span class="at-badge" style="background:#6B7280">Delivered</span>, and optionally opens print views.</p>
+
+
+	<!-- 10. REPORTS -->
+	<h2 id="reports">10. Reports</h2>
+
+	<h3>Daily Sales Collection</h3>
+	<p>Shows all sales invoices and payment entries for a date range:</p>
+	<ul>
+		<li><strong>Filters:</strong> From Date, To Date, Company, Mode of Payment</li>
+		<li><strong>Columns:</strong> Date, Invoice, Customer, Sales Order, Invoice Amount, Payment Entry, Mode of Payment, Collected Amount, Outstanding</li>
+		<li>Invoices with linked payments appear together; advance/standalone payments appear separately</li>
+	</ul>
+
+	<h3>Sales Order Profit Status</h3>
+	<p>Shows profit analysis for each Sales Order:</p>
+	<ul>
+		<li><strong>Filters:</strong> From Date, To Date, Company, Stitching Status, Customer</li>
+		<li><strong>Columns:</strong> Sales Order, Date, Customer, Stitching Status, Grand Total, Item Cost, Stitching Cost (35 SAR/qty), Total Cost, Estimated Profit, Advance Collected, Outstanding, Measurement Count</li>
+		<li>Profit is shown in <span style="color:green;font-weight:700;">green</span> (positive) or <span style="color:red;font-weight:700;">red</span> (negative)</li>
+		<li>Stitching status is color-coded to match the workflow</li>
+	</ul>
+
+
+	<!-- 11. SEARCH -->
+	<h2 id="search">11. Searching by Phone Number</h2>
+	<p>You can search for customers and orders using phone numbers:</p>
+	<ul>
+		<li>In the <strong>Customer</strong> link field (on Sales Order or anywhere), type the phone number to find the customer</li>
+		<li>In the <strong>Sales Order list</strong>, use the search bar to search by phone number</li>
+		<li>The phone number is displayed prominently on the Sales Order form in blue</li>
+	</ul>
+
+
+	<!-- 12. PRINT -->
+	<h2 id="print">12. Print Formats</h2>
+	<ul>
+		<li><strong>Measurement Card</strong> — compact print of all measurements for a Tailoring Measurement</li>
+		<li><strong>Tailoring Invoice</strong> — custom Sales Invoice print format</li>
+		<li><strong>Delivery Slip</strong> — custom Delivery Note print format</li>
+	</ul>
+	<p>Print formats can be selected when completing an order using the <em>Print After Create</em> option.</p>
+
+	<hr style="margin-top:40px;border:none;border-top:1px solid #E5E7EB;">
+	<p style="text-align:center;color:var(--at-gray);font-size:12px;margin-top:16px;">
+		Asafat Tailoring App &bull; Built for Asafat Sahran Tailoring
+	</p>
+
+</div>
+{% endblock %}
