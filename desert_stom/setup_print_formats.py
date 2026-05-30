@@ -2,7 +2,7 @@ import frappe
 
 
 def create_print_formats():
-	"""Create all print formats for Asafat Tailoring."""
+	"""Create all print formats for Desert Stom."""
 
 	# 1. Measurement Card
 	measurement_card_html = """
@@ -39,7 +39,7 @@ def create_print_formats():
 	<div class="mc-header">
 		<div>
 			<div class="mc-title">Measurement Card &mdash; {{ doc.name }}</div>
-			<div class="mc-subtitle">Asafat Sahran Tailoring</div>
+			<div class="mc-subtitle">Desert Stom Tailoring</div>
 		</div>
 		<div>
 			{% if doc.delivery_type == "Urgent" %}
@@ -165,7 +165,7 @@ def create_print_formats():
 <div class="print-format">
 	<div class="ti-header">
 		<div class="ti-title">Tailoring Invoice</div>
-		<div class="ti-sub">Asafat Sahran &mdash; {{ doc.name }}</div>
+		<div class="ti-sub">Desert Stom &mdash; {{ doc.name }}</div>
 	</div>
 
 	<div class="ti-info">
@@ -225,7 +225,7 @@ def create_print_formats():
 		<div class="ti-sum-row ti-sum-total"><span>Outstanding</span><span>{{ frappe.format(doc.outstanding_amount, {"fieldtype": "Currency"}) }}</span></div>
 	</div>
 
-	<div class="ti-thank-you">Thank you for choosing Asafat Sahran!</div>
+	<div class="ti-thank-you">Thank you for choosing Desert Stom!</div>
 
 	<div class="ti-footer">
 		<div class="ti-sig-line">Customer Signature</div>
@@ -255,7 +255,7 @@ def create_print_formats():
 <div class="print-format">
 	<div class="ds-header">
 		<div class="ds-title">Delivery Slip &mdash; {{ doc.name }}</div>
-		<div class="ds-sub">Asafat Sahran Tailoring</div>
+		<div class="ds-sub">Desert Stom Tailoring</div>
 	</div>
 
 	<div class="ds-info">
@@ -327,7 +327,7 @@ def create_print_formats():
 <div class="print-format">
 	<div class="so-header">
 		<div class="so-title">Sales Order</div>
-		<div class="so-sub">Asafat Sahran &mdash; {{ doc.name }}</div>
+		<div class="so-sub">Desert Stom &mdash; {{ doc.name }}</div>
 	</div>
 
 	<div class="so-info">
@@ -407,7 +407,7 @@ def create_print_formats():
 	</div>
 	{% endif %}
 
-	<div class="so-thank-you">Thank you for choosing Asafat Sahran!</div>
+	<div class="so-thank-you">Thank you for choosing Desert Stom!</div>
 
 	<div class="so-footer">
 		<div class="so-sig-line">Customer Signature</div>
@@ -420,7 +420,7 @@ def create_print_formats():
 		{
 			"name": "Measurement Card",
 			"doc_type": "Tailoring Measurement",
-			"module": "Asafat Tailoring",
+			"module": "Desert Stom",
 			"html": measurement_card_html,
 			"standard": "No",
 			"print_format_type": "Jinja",
@@ -429,7 +429,7 @@ def create_print_formats():
 		{
 			"name": "Tailoring Invoice",
 			"doc_type": "Sales Invoice",
-			"module": "Asafat Tailoring",
+			"module": "Desert Stom",
 			"html": tailoring_invoice_html,
 			"standard": "No",
 			"print_format_type": "Jinja",
@@ -438,7 +438,7 @@ def create_print_formats():
 		{
 			"name": "Delivery Slip",
 			"doc_type": "Delivery Note",
-			"module": "Asafat Tailoring",
+			"module": "Desert Stom",
 			"html": delivery_slip_html,
 			"standard": "No",
 			"print_format_type": "Jinja",
@@ -447,7 +447,7 @@ def create_print_formats():
 		{
 			"name": "Tailoring Order",
 			"doc_type": "Sales Order",
-			"module": "Asafat Tailoring",
+			"module": "Desert Stom",
 			"html": tailoring_order_html,
 			"standard": "No",
 			"print_format_type": "Jinja",

@@ -63,7 +63,7 @@ frappe.ui.form.on("Sales Order", {
 
 			// Show measurement count and calculate profit/loss
 			frappe.call({
-				method: "asafat_tailoring.api.get_so_stats",
+				method: "desert_stom.api.get_so_stats",
 				args: { so_name: frm.doc.name },
 				async: false,
 				callback(r) {
@@ -317,7 +317,7 @@ function show_measurement_dialog(frm) {
 
 	// Check for previous customer measurements
 	frappe.call({
-		method: "asafat_tailoring.api.get_previous_measurements",
+		method: "desert_stom.api.get_previous_measurements",
 		args: { customer: frm.doc.customer },
 		callback(r) {
 			if (r.message && r.message.name) {
@@ -367,7 +367,7 @@ function show_advance_dialog(frm) {
 		primary_action_label: __("Create Payment"),
 		primary_action(values) {
 			frappe.call({
-				method: "asafat_tailoring.api.create_advance_payment",
+				method: "desert_stom.api.create_advance_payment",
 				args: {
 					so_name: frm.doc.name,
 					amount: values.amount,
@@ -550,7 +550,7 @@ function show_completion_dialog(frm) {
 			});
 
 			frappe.call({
-				method: "asafat_tailoring.api.complete_order",
+				method: "desert_stom.api.complete_order",
 				args: {
 					so_name: frm.doc.name,
 					values: {
@@ -668,12 +668,12 @@ function send_status_whatsapp(frm, status) {
 			+ "Thank you for your order (" + so + "). "
 			+ "We have received your advance payment and your order is now confirmed.\n"
 			+ "We will notify you once your garment is ready.\n\n"
-			+ "Asafat Sahran Tailoring";
+			+ "Desert Stom Tailoring";
 	} else if (status === "Ready for Delivery") {
 		msg = "Dear " + customer + ",\n\n"
 			+ "Your order (" + so + ") is ready for delivery! "
 			+ "Please visit our shop to collect your garment.\n\n"
-			+ "Asafat Sahran Tailoring";
+			+ "Desert Stom Tailoring";
 	}
 
 	if (msg) {
@@ -767,7 +767,7 @@ function show_return_dialog(frm) {
 			}
 
 			frappe.call({
-				method: "asafat_tailoring.api.process_sales_return",
+				method: "desert_stom.api.process_sales_return",
 				args: {
 					so_name: frm.doc.name,
 					return_items: return_items,

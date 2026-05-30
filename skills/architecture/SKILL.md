@@ -1,12 +1,12 @@
 # Architecture — System Design & Structure
 
-> Complete technical reference for the Asafat Tailoring ERPNext custom app.
+> Complete technical reference for the Desert Stom ERPNext custom app.
 
 ---
 
 ## System Overview
 
-**Asafat Tailoring** is a Frappe v15 / ERPNext v15 custom app that adds a tailoring-specific workflow on top of ERPNext's standard Sales Order → Invoice → Delivery pipeline. It introduces body measurement capture, stitching status tracking, advance payment management, profit analysis, and WhatsApp notifications.
+**Desert Stom** is a Frappe v15 / ERPNext v15 custom app that adds a tailoring-specific workflow on top of ERPNext's standard Sales Order → Invoice → Delivery pipeline. It introduces body measurement capture, stitching status tracking, advance payment management, profit analysis, and WhatsApp notifications.
 
 **Business Flow:**
 ```
@@ -29,9 +29,9 @@ Customer walks in → Sales Order created → Measurement taken → Advance coll
 | Python | ≥3.10 | Runtime |
 
 **Bench path:** `/Users/sayanthns/frappe-bench`
-**App path:** `/Users/sayanthns/frappe-bench/apps/asafat_tailoring`
+**App path:** `/Users/sayanthns/frappe-bench/apps/desert_stom`
 **Site:** `mysite.local`
-**GitHub:** https://github.com/sayanthns/asafat_tailoring (private)
+**GitHub:** https://github.com/sayanthns/desert_stom (private)
 
 ---
 
@@ -44,7 +44,7 @@ Customer walks in → Sales Order created → Measurement taken → Advance coll
 | `hooks.py` | App registration & configuration | CSS/JS includes, doc_events, fixtures, dashboard overrides, after_install hook |
 | `install.py` | Post-install setup | Creates custom fields, stock settings, "Extras" item group, 4 number cards, search field config |
 | `setup_print_formats.py` | 4 Jinja print format templates | Measurement Card, Tailoring Order, Tailoring Invoice, Delivery Slip |
-| `modules.txt` | Module declaration | Single module: "Asafat Tailoring" |
+| `modules.txt` | Module declaration | Single module: "Desert Stom" |
 | `patches.txt` | Migration patches | Currently empty |
 
 ### Backend Logic (Python)
@@ -298,7 +298,7 @@ WHERE per.reference_doctype = 'Sales Order'
 |------|----------|-------|
 | Site config | `/Users/sayanthns/frappe-bench/sites/mysite.local/site_config.json` | DB credentials, Redis URLs |
 | Common config | `/Users/sayanthns/frappe-bench/sites/common_site_config.json` | Shared settings |
-| GitHub repo | https://github.com/sayanthns/asafat_tailoring | Private — needs SSH key or token |
+| GitHub repo | https://github.com/sayanthns/desert_stom | Private — needs SSH key or token |
 | Stock settings | ERPNext → Stock Settings | `allow_uom_with_conversion_rate_defined_in_item` must be enabled |
 | Mode of Payment accounts | ERPNext → Mode of Payment → Account table | Must have account for company — PE creation fails without it |
 | Company default accounts | ERPNext → Company → Default Accounts | Used for PE debit/credit accounts |

@@ -1,12 +1,12 @@
-app_name = "asafat_tailoring"
-app_title = "Asafat Tailoring"
-app_publisher = "Asafat Sahran"
-app_description = "Tailoring workflow for Asafat Sahran"
-app_email = "dev@asafat.com"
+app_name = "desert_stom"
+app_title = "Desert Stom"
+app_publisher = "Desert Stom"
+app_description = "Tailoring workflow for Desert Stom"
+app_email = "dev@enfono.com"
 app_license = "mit"
 
 # Includes in <head>
-app_include_css = ["/assets/asafat_tailoring/css/measurement.css"]
+app_include_css = ["/assets/desert_stom/css/measurement.css"]
 # DocType JS
 doctype_js = {
 	"Sales Order": "public/js/sales_order.js",
@@ -17,7 +17,7 @@ doctype_list_js = {
 }
 
 # Installation
-after_install = "asafat_tailoring.install.after_install"
+after_install = "desert_stom.install.after_install"
 
 # Fixtures
 fixtures = [
@@ -36,7 +36,7 @@ fixtures = [
 	},
 	{
 		"dt": "Print Format",
-		"filters": [["module", "=", "Asafat Tailoring"]],
+		"filters": [["module", "=", "Desert Stom"]],
 	},
 	{
 		"dt": "Property Setter",
@@ -49,16 +49,16 @@ fixtures = [
 
 # Dashboard overrides
 override_doctype_dashboards = {
-	"Sales Order": "asafat_tailoring.overrides.sales_order_dashboard.get_data",
+	"Sales Order": "desert_stom.overrides.sales_order_dashboard.get_data",
 }
 
 # Document Events
 doc_events = {
 	"Sales Order": {
-		"on_submit": "asafat_tailoring.events.sales_order.on_submit",
+		"on_submit": "desert_stom.events.sales_order.on_submit",
 	},
 	"Payment Entry": {
-		"on_submit": "asafat_tailoring.events.payment_entry.update_so_advance",
-		"on_cancel": "asafat_tailoring.events.payment_entry.update_so_advance",
+		"on_submit": "desert_stom.events.payment_entry.update_so_advance",
+		"on_cancel": "desert_stom.events.payment_entry.update_so_advance",
 	},
 }

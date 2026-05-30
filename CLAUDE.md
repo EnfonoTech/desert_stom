@@ -1,4 +1,4 @@
-# Asafat Tailoring — ERPNext Custom App
+# Desert Stom — ERPNext Custom App
 
 > **READ `skills/` BEFORE ANY OPERATION.** Every skill document exists because something broke in production.
 
@@ -32,24 +32,24 @@ Advance tracking breaks if cancel isn't handled. The PE hook recalculates from S
 
 ### 5. ALWAYS run the full deploy sequence after changes
 ```bash
-bench build --app asafat_tailoring && bench --site mysite.local migrate && bench --site mysite.local clear-cache
+bench build --app desert_stom && bench --site mysite.local migrate && bench --site mysite.local clear-cache
 ```
 
 ---
 
 ## Project Overview
-Custom ERPNext v15 / Frappe v15 app for **Asafat Sahran Tailoring** shop.
-GitHub: https://github.com/sayanthns/asafat_tailoring (private)
+Custom ERPNext v15 / Frappe v15 app for **Desert Stom Tailoring** shop.
+GitHub: https://github.com/sayanthns/desert_stom (private)
 
 ## Tech Stack
 - Frappe v15.68.1 / ERPNext v15.61.1
 - Site: mysite.local
 - Bench path: /Users/sayanthns/frappe-bench
-- App path: /Users/sayanthns/frappe-bench/apps/asafat_tailoring
+- App path: /Users/sayanthns/frappe-bench/apps/desert_stom
 
 ## App Structure
 ```
-asafat_tailoring/
+desert_stom/
   api.py                    # 6 whitelisted APIs (advance, invoice, complete, stats, return, prev measurements)
   hooks.py                  # App config, doc_events, fixtures, doctype_js
   install.py                # Post-install setup (custom fields, stock settings, extras group, number cards)
@@ -66,7 +66,7 @@ asafat_tailoring/
   www/
     user-guide.html         # Public user guide page at /user-guide
     user-guide.py           # Context file for user guide
-  asafat_tailoring/
+  desert_stom/
     doctype/
       tailoring_measurement/  # Main measurement doctype (submittable, ~180 lines Python, ~612 lines JS)
       measurement_item/       # Child table for SO items in measurement
@@ -75,7 +75,7 @@ asafat_tailoring/
       daily_sales_collection/       # Script report: daily invoice/payment breakdown
       sales_order_profit_status/    # Script report: per-order profitability
     workspace/
-      asafat_tailoring/             # Workspace with 4 number cards, shortcuts, links
+      desert_stom/             # Workspace with 4 number cards, shortcuts, links
   fixtures/
     custom_field.json       # 13 custom fields (12 on Sales Order, 1 on Customer)
     print_format.json       # 3 print formats
@@ -118,7 +118,7 @@ asafat_tailoring/
 ## Build & Deploy
 ```bash
 cd /Users/sayanthns/frappe-bench
-bench build --app asafat_tailoring
+bench build --app desert_stom
 bench --site mysite.local migrate
 bench --site mysite.local clear-cache
 bench restart  # if Python changes

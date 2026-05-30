@@ -8,7 +8,7 @@ repos:
     rev: v5.0.0
     hooks:
       - id: trailing-whitespace
-        files: "asafat_tailoring.*"
+        files: "desert_stom.*"
         exclude: ".*json$|.*txt$|.*csv|.*md|.*svg"
       - id: check-merge-conflict
       - id: check-ast
@@ -38,11 +38,11 @@ repos:
         # Ignore any files that might contain jinja / bundles
         exclude: |
             (?x)^(
-                asafat_tailoring/public/dist/.*|
+                desert_stom/public/dist/.*|
                 .*node_modules.*|
                 .*boilerplate.*|
-                asafat_tailoring/templates/includes/.*|
-                asafat_tailoring/public/js/lib/.*
+                desert_stom/templates/includes/.*|
+                desert_stom/public/js/lib/.*
             )$
 
 
@@ -55,12 +55,12 @@ repos:
         # Ignore any files that might contain jinja / bundles
         exclude: |
             (?x)^(
-                asafat_tailoring/public/dist/.*|
+                desert_stom/public/dist/.*|
                 cypress/.*|
                 .*node_modules.*|
                 .*boilerplate.*|
-                asafat_tailoring/templates/includes/.*|
-                asafat_tailoring/public/js/lib/.*
+                desert_stom/templates/includes/.*|
+                desert_stom/public/js/lib/.*
             )$
 
 ci:

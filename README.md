@@ -1,6 +1,6 @@
-### Asafat Tailoring
+### Desert Stom
 
-Tailoring workflow for Asafat Sahran
+Tailoring workflow for Desert Stom
 
 ### Installation
 
@@ -9,7 +9,7 @@ You can install this app using the [bench](https://github.com/frappe/bench) CLI:
 ```bash
 cd $PATH_TO_YOUR_BENCH
 bench get-app $URL_OF_THIS_REPO --branch develop
-bench install-app asafat_tailoring
+bench install-app desert_stom
 ```
 
 ### Contributing
@@ -17,7 +17,7 @@ bench install-app asafat_tailoring
 This app uses `pre-commit` for code formatting and linting. Please [install pre-commit](https://pre-commit.com/#installation) and enable it for this repository:
 
 ```bash
-cd apps/asafat_tailoring
+cd apps/desert_stom
 pre-commit install
 ```
 

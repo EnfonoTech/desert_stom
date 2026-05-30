@@ -197,8 +197,8 @@ WHERE per.reference_doctype = 'Sales Order'
 If still broken, verify `hooks.py` has:
 ```python
 "Payment Entry": {
-    "on_submit": "asafat_tailoring.events.payment_entry.update_so_advance",
-    "on_cancel": "asafat_tailoring.events.payment_entry.update_so_advance",
+    "on_submit": "desert_stom.events.payment_entry.update_so_advance",
+    "on_cancel": "desert_stom.events.payment_entry.update_so_advance",
 },
 ```
 
@@ -248,7 +248,7 @@ Open any submitted SO → check if "Not Saved" indicator appears immediately.
 After all `set_value()` calls in the stats callback, clear the dirty flag:
 ```javascript
 frappe.call({
-    method: "asafat_tailoring.api.get_so_stats",
+    method: "desert_stom.api.get_so_stats",
     args: { so_name: frm.doc.name },
     callback: function(r) {
         // ... set values ...
@@ -339,7 +339,7 @@ for dt in ["Sales Order", "Sales Invoice"]:
 ### Fix
 ```python
 # bench console
-from asafat_tailoring.setup_print_formats import setup_print_formats
+from desert_stom.setup_print_formats import setup_print_formats
 setup_print_formats()
 frappe.db.commit()
 ```
@@ -388,7 +388,7 @@ If the SO's `advance_collected` is stale (not recalculated after PE cancellation
 1. Check SO's `advance_collected` against actual submitted PEs
 2. Run advance recalculation:
    ```python
-   from asafat_tailoring.events.payment_entry import _recalculate_advance
+   from desert_stom.events.payment_entry import _recalculate_advance
    _recalculate_advance("SO-2026-00001")
    frappe.db.commit()
    ```
@@ -416,17 +416,17 @@ lsof -i :9000  # Socketio
 cd /Users/sayanthns/frappe-bench
 rm -rf node_modules
 yarn install
-bench build --app asafat_tailoring
+bench build --app desert_stom
 ```
 
 ### Migration fails
 ```bash
 # Check for syntax errors in Python files
-cd /Users/sayanthns/frappe-bench/apps/asafat_tailoring
-python -m py_compile asafat_tailoring/api.py
-python -m py_compile asafat_tailoring/install.py
-python -m py_compile asafat_tailoring/events/payment_entry.py
-python -m py_compile asafat_tailoring/events/sales_order.py
+cd /Users/sayanthns/frappe-bench/apps/desert_stom
+python -m py_compile desert_stom/api.py
+python -m py_compile desert_stom/install.py
+python -m py_compile desert_stom/events/payment_entry.py
+python -m py_compile desert_stom/events/sales_order.py
 
 # If doctype JSON is corrupted, re-export from site
 bench --site mysite.local export-doc "DocType" "Tailoring Measurement"
@@ -435,7 +435,7 @@ bench --site mysite.local export-doc "DocType" "Tailoring Measurement"
 ### Custom fields missing after migration
 ```bash
 bench --site mysite.local console
->>> from asafat_tailoring.install import after_install
+>>> from desert_stom.install import after_install
 >>> after_install()
 >>> frappe.db.commit()
 ```

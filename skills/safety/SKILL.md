@@ -124,7 +124,7 @@ frappe.db.commit()
 3. Set `update_stock=1` if no separate Delivery Note will be created
 
 ### Before deploying any change:
-1. Run `bench build --app asafat_tailoring`
+1. Run `bench build --app desert_stom`
 2. Run `bench --site mysite.local migrate`
 3. Run `bench --site mysite.local clear-cache`
 4. Test the full workflow: SO → Measurement → Advance → Status transitions → Complete Order
@@ -159,7 +159,7 @@ Before deploying ANY change, verify:
 - [ ] Number Card filters use `[["DocType", "field", "operator", "value"]]` format
 - [ ] No direct SQL writes to `advance_collected` or `outstanding_amount`
 - [ ] `conversion_factor: 1` is set on all programmatically added items
-- [ ] `bench build --app asafat_tailoring` completes without errors
+- [ ] `bench build --app desert_stom` completes without errors
 - [ ] `bench --site mysite.local migrate` runs clean
 - [ ] Workspace number cards render after deployment
 - [ ] Full workflow test passes (SO → Measurement with extras → Advance → Complete)

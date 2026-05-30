@@ -1,9 +1,9 @@
 [project]
-name = "asafat_tailoring"
+name = "desert_stom"
 authors = [
-    { name = "Asafat Sahran", email = "dev@asafat.com"}
+    { name = "Desert Stom", email = "dev@enfono.com"}
 ]
-description = "Tailoring workflow for Asafat Sahran"
+description = "Tailoring workflow for Desert Stom"
 requires-python = ">=3.10"
 readme = "README.md"
 dynamic = ["version"]

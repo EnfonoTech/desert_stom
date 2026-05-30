@@ -1,6 +1,6 @@
 # Operations — Day-to-Day Workflows
 
-> How to build, deploy, debug, and maintain the Asafat Tailoring app.
+> How to build, deploy, debug, and maintain the Desert Stom app.
 
 ---
 
@@ -16,9 +16,9 @@
 ### Key Paths
 ```
 Bench:     /Users/sayanthns/frappe-bench
-App:       /Users/sayanthns/frappe-bench/apps/asafat_tailoring
+App:       /Users/sayanthns/frappe-bench/apps/desert_stom
 Site:      /Users/sayanthns/frappe-bench/sites/mysite.local
-Assets:    /Users/sayanthns/frappe-bench/sites/assets/asafat_tailoring
+Assets:    /Users/sayanthns/frappe-bench/sites/assets/desert_stom
 Logs:      /Users/sayanthns/frappe-bench/logs/
 ```
 
@@ -32,7 +32,7 @@ Logs:      /Users/sayanthns/frappe-bench/logs/
 cd /Users/sayanthns/frappe-bench
 
 # 1. Build frontend assets (JS/CSS)
-bench build --app asafat_tailoring
+bench build --app desert_stom
 
 # 2. Run database migrations (if doctype/field changes)
 bench --site mysite.local migrate
@@ -48,7 +48,7 @@ bench restart
 
 ```bash
 cd /Users/sayanthns/frappe-bench
-bench build --app asafat_tailoring
+bench build --app desert_stom
 bench --site mysite.local clear-cache
 # No restart needed — browser hard-refresh (Ctrl+Shift+R) loads new assets
 ```
@@ -71,12 +71,12 @@ bench restart
 cd /Users/sayanthns/frappe-bench
 
 # Export all fixtures defined in hooks.py
-bench --site mysite.local export-fixtures --app asafat_tailoring
+bench --site mysite.local export-fixtures --app desert_stom
 ```
 
-This exports to `asafat_tailoring/fixtures/`:
+This exports to `desert_stom/fixtures/`:
 - `custom_field.json` — all custom fields tagged to this app
-- `print_format.json` — print formats from "Asafat Tailoring" module
+- `print_format.json` — print formats from "Desert Stom" module
 - `property_setter.json` — property setters for Sales Order and Sales Invoice
 
 ### Import fixtures (on new site or after migration)
@@ -89,7 +89,7 @@ bench --site mysite.local migrate
 ### Manual fixture import
 
 ```bash
-bench --site mysite.local import-doc asafat_tailoring/fixtures/custom_field.json
+bench --site mysite.local import-doc desert_stom/fixtures/custom_field.json
 ```
 
 ---
@@ -100,10 +100,10 @@ bench --site mysite.local import-doc asafat_tailoring/fixtures/custom_field.json
 cd /Users/sayanthns/frappe-bench
 
 # 1. Get the app
-bench get-app https://github.com/sayanthns/asafat_tailoring.git
+bench get-app https://github.com/sayanthns/desert_stom.git
 
 # 2. Install on site
-bench --site mysite.local install-app asafat_tailoring
+bench --site mysite.local install-app desert_stom
 
 # 3. This triggers after_install() which:
 #    - Creates custom fields on Sales Order and Customer
@@ -114,11 +114,11 @@ bench --site mysite.local install-app asafat_tailoring
 #    - Creates 4 Number Cards for workspace dashboard
 
 # 4. Build assets
-bench build --app asafat_tailoring
+bench build --app desert_stom
 
 # 5. Set up print formats (if not created by fixtures)
 bench --site mysite.local console
->>> from asafat_tailoring.setup_print_formats import setup_print_formats
+>>> from desert_stom.setup_print_formats import setup_print_formats
 >>> setup_print_formats()
 >>> frappe.db.commit()
 ```
@@ -170,7 +170,7 @@ so = frappe.get_doc("Sales Order", "SO-2026-00001")
 print(so.stitching_status, so.advance_collected, so.outstanding_amount)
 
 # Fix wrong advance_collected
-from asafat_tailoring.events.payment_entry import _recalculate_advance
+from desert_stom.events.payment_entry import _recalculate_advance
 _recalculate_advance("SO-2026-00001")
 frappe.db.commit()
 
@@ -183,18 +183,18 @@ frappe.db.commit()
 
 # Check all custom fields
 fields = frappe.get_all("Custom Field",
-    filters={"module": "Asafat Tailoring"},
+    filters={"module": "Desert Stom"},
     fields=["name", "dt", "fieldname", "fieldtype"])
 for f in fields:
     print(f"{f.dt}.{f.fieldname} ({f.fieldtype})")
 
 # Re-run post-install setup
-from asafat_tailoring.install import after_install
+from desert_stom.install import after_install
 after_install()
 frappe.db.commit()
 
 # Recreate print formats
-from asafat_tailoring.setup_print_formats import setup_print_formats
+from desert_stom.setup_print_formats import setup_print_formats
 setup_print_formats()
 frappe.db.commit()
 ```
@@ -209,14 +209,14 @@ frappe.db.commit()
 cd /Users/sayanthns/frappe-bench
 
 # 1. Revert code
-git -C apps/asafat_tailoring log --oneline -5   # find the good commit
-git -C apps/asafat_tailoring checkout <good-commit-hash>
+git -C apps/desert_stom log --oneline -5   # find the good commit
+git -C apps/desert_stom checkout <good-commit-hash>
 
 # 2. Re-migrate (applies rollback patches if any)
 bench --site mysite.local migrate
 
 # 3. Rebuild and restart
-bench build --app asafat_tailoring
+bench build --app desert_stom
 bench --site mysite.local clear-cache
 bench restart
 ```
@@ -226,9 +226,9 @@ bench restart
 ```bash
 bench --site mysite.local console
 >>> # Delete and recreate
->>> frappe.db.delete("Custom Field", {"module": "Asafat Tailoring"})
+>>> frappe.db.delete("Custom Field", {"module": "Desert Stom"})
 >>> frappe.db.commit()
->>> from asafat_tailoring.install import after_install
+>>> from desert_stom.install import after_install
 >>> after_install()
 >>> frappe.db.commit()
 ```
@@ -242,7 +242,7 @@ bench --site mysite.local console
 ...     if frappe.db.exists("Number Card", name):
 ...         frappe.delete_doc("Number Card", name)
 >>> frappe.db.commit()
->>> from asafat_tailoring.install import _setup_number_cards
+>>> from desert_stom.install import _setup_number_cards
 >>> _setup_number_cards()
 >>> frappe.db.commit()
 ```
@@ -255,14 +255,14 @@ bench --site mysite.local console
 
 1. Define it in `install.py:get_custom_fields()` function
 2. Run `after_install()` via bench console to create it
-3. Export fixtures: `bench --site mysite.local export-fixtures --app asafat_tailoring`
+3. Export fixtures: `bench --site mysite.local export-fixtures --app desert_stom`
 4. If it needs `allow_on_submit`: set that property in the field definition
 5. Build and clear cache
 
 ### Adding a new API endpoint
 
 1. Add function to `api.py` with `@frappe.whitelist()` decorator
-2. Call from JS: `frappe.call({ method: "asafat_tailoring.api.your_function", args: {...} })`
+2. Call from JS: `frappe.call({ method: "desert_stom.api.your_function", args: {...} })`
 3. Restart bench (Python change)
 
 ### Adding a new document event hook
@@ -276,17 +276,17 @@ bench --site mysite.local console
 1. Edit the HTML template in `setup_print_formats.py`
 2. Run via bench console:
    ```python
-   from asafat_tailoring.setup_print_formats import setup_print_formats
+   from desert_stom.setup_print_formats import setup_print_formats
    setup_print_formats()
    frappe.db.commit()
    ```
-3. Export fixtures: `bench --site mysite.local export-fixtures --app asafat_tailoring`
+3. Export fixtures: `bench --site mysite.local export-fixtures --app desert_stom`
 
 ### Modifying the workspace
 
-1. Edit workspace in browser: `/app/workspace/Asafat Tailoring`
-2. Or modify JSON directly: `workspace/asafat_tailoring/asafat_tailoring.json`
-3. If modified in browser, export: `bench --site mysite.local export-fixtures --app asafat_tailoring`
+1. Edit workspace in browser: `/app/workspace/Desert Stom`
+2. Or modify JSON directly: `workspace/desert_stom/desert_stom.json`
+3. If modified in browser, export: `bench --site mysite.local export-fixtures --app desert_stom`
 
 ---
 
@@ -303,7 +303,7 @@ This app does not use custom environment variables. All configuration is via:
 ## Git Workflow
 
 ```bash
-cd /Users/sayanthns/frappe-bench/apps/asafat_tailoring
+cd /Users/sayanthns/frappe-bench/apps/desert_stom
 
 # Check status
 git status
@@ -318,7 +318,7 @@ git push origin main
 
 ### Before committing:
 1. Ensure fixtures are exported if custom fields/print formats changed
-2. Run `bench build --app asafat_tailoring` to verify no build errors
+2. Run `bench build --app desert_stom` to verify no build errors
 3. Test the full workflow on local site
 
 ---
@@ -327,7 +327,7 @@ git push origin main
 
 ### Quick health check after deploy:
 
-1. Open workspace: `/app/asafat-tailoring` — verify 4 number cards appear
+1. Open workspace: `/app/desert_stom-tailoring` — verify 4 number cards appear
 2. Open any Sales Order — verify stitching_status indicator shows
 3. Open a submitted SO — verify custom buttons appear (Add Measurement, Collect Advance, etc.)
 4. Create a test measurement — verify extras are added to SO with correct totals
@@ -337,6 +337,6 @@ git push origin main
 ### Verify custom fields exist:
 ```bash
 bench --site mysite.local console
->>> len(frappe.get_all("Custom Field", filters={"dt": "Sales Order", "module": "Asafat Tailoring"}))
+>>> len(frappe.get_all("Custom Field", filters={"dt": "Sales Order", "module": "Desert Stom"}))
 # Should return 12
 ```

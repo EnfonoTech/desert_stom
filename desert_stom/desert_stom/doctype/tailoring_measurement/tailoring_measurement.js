@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════════════
-   Asafat Tailoring — Tailoring Measurement Form
+   Desert Stom — Tailoring Measurement Form
    Per-item measurements with cloth_name switcher
    ═══════════════════════════════════════════════════════════ */
 
@@ -19,7 +19,7 @@ frappe.ui.form.on("Tailoring Measurement", {
 		// Force reload latest CSS (bust browser cache)
 		var oldCss = document.querySelector('link[href*="measurement.css"]');
 		if (oldCss) {
-			var freshHref = '/assets/asafat_tailoring/css/measurement.css?v=' + (frappe.boot.build_version || Date.now());
+			var freshHref = '/assets/desert_stom/css/measurement.css?v=' + (frappe.boot.build_version || Date.now());
 			if (oldCss.href.indexOf(freshHref) === -1) {
 				oldCss.href = freshHref;
 			}
