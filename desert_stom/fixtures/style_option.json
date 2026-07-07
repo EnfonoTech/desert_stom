@@ -1,0 +1,146 @@
+[
+ {
+  "category": "Neck Style",
+  "docstatus": 0,
+  "doctype": "Style Option",
+  "image": "/files/Screenshot from 2026-01-12 17-08-29.png",
+  "modified": "2026-06-27 15:52:02.200641",
+  "name": "test",
+  "option_name": "test"
+ },
+ {
+  "category": "Thobe Model",
+  "docstatus": 0,
+  "doctype": "Style Option",
+  "image": "/files/kuwait.png",
+  "modified": "2026-06-27 16:06:53.542619",
+  "name": "kuwait",
+  "option_name": "kuwait"
+ },
+ {
+  "category": "Collar Style",
+  "docstatus": 0,
+  "doctype": "Style Option",
+  "image": "/files/logo png.png",
+  "modified": "2026-06-27 16:18:22.164264",
+  "name": "k",
+  "option_name": "k"
+ },
+ {
+  "category": "Special Button",
+  "docstatus": 0,
+  "doctype": "Style Option",
+  "image": "",
+  "modified": "2026-06-27 16:30:03.845604",
+  "name": "b",
+  "option_name": "b"
+ },
+ {
+  "category": "Bottom Style",
+  "docstatus": 0,
+  "doctype": "Style Option",
+  "image": "/files/bottom_style_curtain_iconb55b1b.png",
+  "modified": "2026-07-07 16:04:58.426572",
+  "name": "Curtain",
+  "option_name": "Curtain"
+ },
+ {
+  "category": "Collar Type",
+  "docstatus": 0,
+  "doctype": "Style Option",
+  "image": "/files/collar_type_type_a_icone66163.png",
+  "modified": "2026-07-07 16:04:56.370197",
+  "name": "Type A",
+  "option_name": "Type A"
+ },
+ {
+  "category": "Collar Type",
+  "docstatus": 0,
+  "doctype": "Style Option",
+  "image": "/files/collar_type_type_b_icon36cf31.png",
+  "modified": "2026-07-07 16:04:56.583526",
+  "name": "Type B",
+  "option_name": "Type B"
+ },
+ {
+  "category": "Neck Type",
+  "docstatus": 0,
+  "doctype": "Style Option",
+  "image": "/files/neck_type_round_icon91be9f.png",
+  "modified": "2026-07-07 16:04:56.809608",
+  "name": "Round",
+  "option_name": "Round"
+ },
+ {
+  "category": "Neck Type",
+  "docstatus": 0,
+  "doctype": "Style Option",
+  "image": "/files/neck_type_v-shape_icon797d89.png",
+  "modified": "2026-07-07 16:04:56.954954",
+  "name": "V-Shape",
+  "option_name": "V-Shape"
+ },
+ {
+  "category": "Hip",
+  "docstatus": 0,
+  "doctype": "Style Option",
+  "image": "/files/hip_slim_fit_icon75b78e.png",
+  "modified": "2026-07-07 16:04:57.110274",
+  "name": "Slim Fit",
+  "option_name": "Slim Fit"
+ },
+ {
+  "category": "Hip",
+  "docstatus": 0,
+  "doctype": "Style Option",
+  "image": "/files/hip_regular_fit_icon92c2c1.png",
+  "modified": "2026-07-07 16:04:57.282883",
+  "name": "Regular Fit",
+  "option_name": "Regular Fit"
+ },
+ {
+  "category": "Hip Type",
+  "docstatus": 0,
+  "doctype": "Style Option",
+  "image": "/files/hip_type_fitted_icon62a6d7.png",
+  "modified": "2026-07-07 16:04:57.473253",
+  "name": "Fitted",
+  "option_name": "Fitted"
+ },
+ {
+  "category": "Hip Type",
+  "docstatus": 0,
+  "doctype": "Style Option",
+  "image": "/files/hip_type_loose_iconedd2ec.png",
+  "modified": "2026-07-07 16:04:57.660762",
+  "name": "Loose",
+  "option_name": "Loose"
+ },
+ {
+  "category": "Garment Model",
+  "docstatus": 0,
+  "doctype": "Style Option",
+  "image": "/files/garment_model_model_x_iconf45dee.png",
+  "modified": "2026-07-07 16:04:57.863245",
+  "name": "Model X",
+  "option_name": "Model X"
+ },
+ {
+  "category": "Garment Model",
+  "docstatus": 0,
+  "doctype": "Style Option",
+  "image": "/files/garment_model_model_y_icon0f12aa.png",
+  "modified": "2026-07-07 16:04:58.064855",
+  "name": "Model Y",
+  "option_name": "Model Y"
+ },
+ {
+  "category": "Bottom Style",
+  "docstatus": 0,
+  "doctype": "Style Option",
+  "image": "/files/bottom_style_straight_icon8d8a33.png",
+  "modified": "2026-07-07 16:04:58.273781",
+  "name": "Straight",
+  "option_name": "Straight"
+ }
+]

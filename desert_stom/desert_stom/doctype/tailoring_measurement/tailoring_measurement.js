@@ -3,6 +3,69 @@
    Per-item measurements with cloth_name switcher
    ═══════════════════════════════════════════════════════════ */
 
+/* ═══════════════════════════════════════════════════════════
+   GARMENT TYPE — conditional field config
+   Add new garment types here as needed
+   ═══════════════════════════════════════════════════════════ */
+
+var GARMENT_CONFIG = {
+	'Thobe': {
+		required: ['length', 'shoulder', 'sleeve_length', 'loose_1', 'loose_2', 'bottom'],
+		hide_sections: []
+	},
+	'Medical Uniform': {
+		required: ['length', 'shoulder'],
+		hide_sections: ['collar_neck_section', 'hip_button_section']
+	},
+	'Bottom': {
+		// No top/body measurements needed — only the Bottom Measurements
+		// section (Waist, Hip, Length, Loose, Bottom Style) applies.
+		required: [],
+		hide_sections: ['collar_neck_section', 'hip_button_section', 'measurements_section']
+	}
+};
+
+// Default when garment_type is empty or not in config
+var GARMENT_DEFAULT = {
+	required: ['length', 'shoulder', 'sleeve_length', 'loose_1', 'loose_2', 'bottom'],
+	hide_sections: []
+};
+
+var ALL_CONDITIONAL_SECTIONS = [
+	'collar_neck_section', 'hip_button_section', 'bottom_measurements_section', 'measurements_section'
+];
+
+var ALL_CONDITIONAL_REQUIRED = [
+	'length', 'shoulder', 'sleeve_length', 'loose_1', 'loose_2', 'bottom',
+	'bottom_size', 'sleeve_loose', 'shoulder_alt', 'sleeve_alt'
+];
+
+function apply_garment_config(frm) {
+	var gt = frm.doc.garment_type;
+	var config = (gt && GARMENT_CONFIG[gt]) ? GARMENT_CONFIG[gt] : GARMENT_DEFAULT;
+
+	// Reset all conditional fields to not required
+	ALL_CONDITIONAL_REQUIRED.forEach(function(f) {
+		frm.set_df_property(f, 'reqd', 0);
+	});
+
+	// Apply required fields for this type
+	(config.required || []).forEach(function(f) {
+		frm.set_df_property(f, 'reqd', 1);
+	});
+
+	// Show all conditional sections first, then hide the ones for this type
+	ALL_CONDITIONAL_SECTIONS.forEach(function(s) {
+		frm.set_df_property(s, 'hidden', 0);
+	});
+	(config.hide_sections || []).forEach(function(s) {
+		frm.set_df_property(s, 'hidden', 1);
+	});
+
+	frm.refresh_fields();
+}
+
+
 var PER_ITEM_FIELDS = [
 	"length", "shoulder", "sleeve_length", "loose_1", "loose_2",
 	"bottom", "bottom_size", "sleeve_loose", "shoulder_alt", "sleeve_alt",
@@ -34,6 +97,7 @@ frappe.ui.form.on("Tailoring Measurement", {
 		$(".sticky-action-bar, .meas-right-panel, #sticky-action-bar, .visual-option-grid").remove();
 		$(".meas-summary-banner, .thobe-diagram-card, #meas-progress-wrap, .meas-item-indicator").remove();
 
+		apply_garment_config(frm);
 		inject_badges(frm);
 		inject_summary_banner(frm);
 		inject_thobe_diagram(frm);
@@ -76,6 +140,10 @@ frappe.ui.form.on("Tailoring Measurement", {
 		update_progress(frm);
 		update_diagram_labels(frm);
 		inject_item_indicator(frm);
+	},
+
+	garment_type(frm) {
+		apply_garment_config(frm);
 	},
 
 	sales_order(frm) {
@@ -389,15 +457,125 @@ function setup_visual_popups(frm) {
 	var isReadOnly = frm.doc.docstatus === 1 || frm.doc.docstatus === 2;
 	if (isReadOnly) return;
 
-	var fields = [
-		{ fieldname: "collar_style", title: "Select Collar Style", icon_fn: make_collar_svg, compact: true },
-		{ fieldname: "special_button", title: "Select Button Type", icon_fn: make_button_svg, compact: false },
-		{ fieldname: "thobe", title: "Select Thobe Model", icon_fn: make_thobe_svg, compact: false },
-	];
+	// DB-driven popups for Link fields
+	bind_db_popup_trigger(frm, "collar_style", "Select Collar Style", "Collar Style", "Style Option");
+	bind_db_popup_trigger(frm, "neck_style", "Select Neck Style", "Neck Style", "Style Option");
+	bind_db_popup_trigger(frm, "collar_type", "Select Collar Type", "Collar Type", "Style Option");
+	bind_db_popup_trigger(frm, "neck_type", "Select Neck Type", "Neck Type", "Style Option");
+	bind_db_popup_trigger(frm, "hip", "Select Hip Style", "Hip", "Style Option");
+	bind_db_popup_trigger(frm, "hip_type", "Select Hip Type", "Hip Type", "Style Option");
+	bind_db_popup_trigger(frm, "special_button", "Select Button Type", "Special Button", "Style Option");
+	bind_db_popup_trigger(frm, "thobe", "Select Thobe Model", "Thobe Model", "Style Option", make_thobe_svg);
+	bind_db_popup_trigger(frm, "garment_model", "Select Garment Model", "Garment Model", "Style Option");
+	bind_db_popup_trigger(frm, "bt_style", "Select Bottom Style", "Bottom Style", "Style Option");
+}
 
-	for (var i = 0; i < fields.length; i++) {
-		bind_popup_trigger(frm, fields[i]);
-	}
+function bind_db_popup_trigger(frm, fieldname, title, category, doctype, fallback_svg_fn) {
+	var field = frm.fields_dict[fieldname];
+	if (!field) return;
+
+	var $input = $(field.wrapper).find("input");
+	if (!$input.length) return;
+
+	$input.addClass("vo-select-trigger");
+	$input.off("mousedown.vo").on("mousedown.vo", function(e) {
+		e.preventDefault();
+		e.stopPropagation();
+		show_db_visual_popup(frm, fieldname, title, category, doctype, fallback_svg_fn);
+		return false;
+	});
+}
+
+function show_db_visual_popup(frm, fieldname, title, category, doctype, fallback_svg_fn) {
+	$(".vo-catalog-overlay").remove();
+	var currentVal = frm.doc[fieldname] || "";
+
+	frappe.call({
+		method: "frappe.client.get_list",
+		args: {
+			doctype: doctype || "Style Option",
+			filters: category ? [["category", "=", category]] : [],
+			fields: ["name", "image"],
+			limit_page_length: 200,
+			order_by: "name asc"
+		},
+		callback: function(r) {
+			var allItems = r.message || [];
+
+			function buildCards(items) {
+				var none_selected = !currentVal;
+				var html = '<div class="vo-catalog-card' + (none_selected ? ' selected' : '') + '" data-value="">'
+					+ '<div class="vo-catalog-img"><svg viewBox="0 0 64 64">'
+					+ '<rect x="8" y="8" width="48" height="48" rx="8" fill="#F9FAFB" stroke="#D1D5DB" stroke-width="1.5"/>'
+					+ '<line x1="18" y1="18" x2="46" y2="46" stroke="#D1D5DB" stroke-width="2"/>'
+					+ '<line x1="46" y1="18" x2="18" y2="46" stroke="#D1D5DB" stroke-width="2"/></svg></div>'
+					+ '<div class="vo-catalog-label">None</div></div>';
+
+				for (var i = 0; i < items.length; i++) {
+					var item = items[i];
+					var sel = (item.name === currentVal);
+					var imgHtml;
+					if (item.image) {
+						imgHtml = '<img src="' + item.image + '" />';
+					} else if (fallback_svg_fn) {
+						imgHtml = fallback_svg_fn(item.name);
+					} else {
+						imgHtml = '<svg viewBox="0 0 64 64"><path d="M10 48 Q10 14 32 8 Q54 14 54 48" fill="#F0FDF4" stroke="#059669" stroke-width="1.5"/>'
+							+ '<path d="M18 40 Q32 26 46 40" fill="#ECFDF5" stroke="#059669" stroke-width="1"/>'
+							+ '<circle cx="32" cy="44" r="2" fill="#059669"/></svg>';
+					}
+					html += '<div class="vo-catalog-card' + (sel ? ' selected' : '') + '" data-value="' + item.name.replace(/"/g, '&quot;') + '">'
+						+ '<div class="vo-catalog-img">' + imgHtml + '</div>'
+						+ '<div class="vo-catalog-label">' + item.name + '</div></div>';
+				}
+
+				if (!allItems.length) {
+					html = '<div class="vo-catalog-empty">No options found yet.<br>'
+						+ 'Add them via <strong>Style Option</strong> master.</div>';
+				}
+				return html;
+			}
+
+			var $overlay = $('<div class="vo-catalog-overlay">'
+				+ '<div class="vo-catalog-panel">'
+				+ '<div class="vo-catalog-header">'
+				+ '<div class="vo-catalog-title">' + title + '</div>'
+				+ '<input type="text" class="vo-catalog-search" placeholder="&#128269; Search..." />'
+				+ '<button class="vo-catalog-close">&times;</button>'
+				+ '</div>'
+				+ '<div class="vo-catalog-body">'
+				+ '<div class="vo-catalog-grid">' + buildCards(allItems) + '</div>'
+				+ '</div></div></div>');
+
+			$("body").append($overlay);
+
+			function bindClicks() {
+				$overlay.find(".vo-catalog-card").off("click").on("click", function() {
+					var val = $(this).data("value");
+					frm.set_value(fieldname, val || null);
+					$overlay.remove();
+				});
+			}
+			bindClicks();
+
+			$overlay.find(".vo-catalog-search").on("input", function() {
+				var q = $(this).val().toLowerCase().trim();
+				var filtered = q ? allItems.filter(function(it) {
+					return it.name.toLowerCase().indexOf(q) !== -1;
+				}) : allItems;
+				$overlay.find(".vo-catalog-grid").html(buildCards(filtered));
+				bindClicks();
+			}).on("mousedown", function(e) { e.stopPropagation(); });
+
+			$overlay.find(".vo-catalog-close").on("click", function() { $overlay.remove(); });
+			$overlay.on("click", function(e) {
+				if ($(e.target).hasClass("vo-catalog-overlay")) $overlay.remove();
+			});
+			$(document).one("keydown.vo", function(e) {
+				if (e.key === "Escape") $overlay.remove();
+			});
+		}
+	});
 }
 
 function bind_popup_trigger(frm, config) {

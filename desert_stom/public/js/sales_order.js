@@ -120,6 +120,11 @@ frappe.ui.form.on("Sales Order", {
 					update_stitching_status(frm, "Ready for Delivery", true);
 				}, __("Status"));
 			}
+			if (st === "Ready for Delivery") {
+				frm.add_custom_button(__("Return Job Order"), () => {
+					show_return_to_job_order_dialog(frm);
+				}, __("Status"));
+			}
 
 			// Collect Advance button (before Job Order)
 			if (["Order", "Measurement"].includes(st)) {
@@ -381,7 +386,12 @@ function show_advance_dialog(frm) {
 							indicator: "green",
 						});
 						d.hide();
-						frm.reload_doc();
+						var was_first_advance = frm.doc.stitching_status === "Order" || frm.doc.stitching_status === "Measurement";
+						frm.reload_doc().then(() => {
+							if (was_first_advance && frm.doc.stitching_status === "Job Order") {
+								send_status_whatsapp(frm, "Job Order");
+							}
+						});
 					}
 				},
 			});
@@ -644,6 +654,41 @@ function update_stitching_status(frm, new_status, send_whatsapp) {
 }
 
 
+function show_return_to_job_order_dialog(frm) {
+	var d = new frappe.ui.Dialog({
+		title: __("Return to Job Order"),
+		fields: [
+			{
+				fieldname: "info",
+				fieldtype: "HTML",
+				options: '<div style="padding:10px 0 6px;color:#92400E;background:#FEF3C7;border-radius:8px;padding:10px 14px;margin-bottom:8px;font-size:13px;">'
+					+ '⚠️ This will move the order back to <strong>Job Order</strong> stage for rework.'
+					+ '</div>'
+			},
+			{
+				fieldname: "reason",
+				fieldtype: "Small Text",
+				label: __("Reason for Return"),
+				reqd: 1,
+				placeholder: "e.g. Customer trial — needs alteration on shoulder"
+			}
+		],
+		primary_action_label: __("Return to Job Order"),
+		primary_action: function(values) {
+			frm.set_value("stitching_status", "Job Order");
+			frm.save("Update").then(() => {
+				frappe.show_alert({
+					message: __("Order returned to Job Order stage"),
+					indicator: "orange",
+				});
+				d.hide();
+			});
+		}
+	});
+	d.show();
+}
+
+
 function send_status_whatsapp(frm, status) {
 	var phone = frm.doc.customer_phone;
 	if (!phone) {
@@ -783,6 +828,9 @@ function show_return_dialog(frm) {
 						let msg_parts = [];
 						if (r.message.credit_note) {
 							msg_parts.push(__("Credit Note: {0}", [r.message.credit_note]));
+						}
+						if (r.message.return_dn) {
+							msg_parts.push(__("Return Delivery Note: {0}", [r.message.return_dn]));
 						}
 						if (r.message.refund) {
 							msg_parts.push(__("Refund Payment: {0}", [r.message.refund]));

@@ -41,9 +41,18 @@ fixtures = [
 	{
 		"dt": "Property Setter",
 		"filters": [
-			["doc_type", "in", ["Sales Order", "Sales Invoice"]],
-			["property", "=", "default_print_format"],
+			["name", "in", [
+				"Sales Order-main-default_print_format",
+				"Sales Invoice-main-default_print_format",
+				"Customer-main-search_fields",
+			]],
 		],
+	},
+	{
+		"dt": "Garment Type",
+	},
+	{
+		"dt": "Style Option",
 	},
 ]
 

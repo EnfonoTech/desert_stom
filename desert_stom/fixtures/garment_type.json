@@ -1,0 +1,26 @@
+[
+ {
+  "description": null,
+  "docstatus": 0,
+  "doctype": "Garment Type",
+  "modified": "2026-07-07 19:52:01.400360",
+  "name": "Thobe",
+  "type_name": "Thobe"
+ },
+ {
+  "description": null,
+  "docstatus": 0,
+  "doctype": "Garment Type",
+  "modified": "2026-07-07 19:52:01.465524",
+  "name": "Medical Uniform",
+  "type_name": "Medical Uniform"
+ },
+ {
+  "description": "Order is for a bottom piece only (e.g. trousers) — no top/body measurements needed.",
+  "docstatus": 0,
+  "doctype": "Garment Type",
+  "modified": "2026-07-07 22:35:45.798330",
+  "name": "Bottom",
+  "type_name": "Bottom"
+ }
+]

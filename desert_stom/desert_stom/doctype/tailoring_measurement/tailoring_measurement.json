@@ -12,8 +12,9 @@
   "measurement_items",
   "measurements_json",
   "cloth_details_section",
+  "garment_type",
   "cloth_name", "cloth_no", "column_break_cloth1",
-  "qty", "stitching_model", "thobe", "column_break_cloth2",
+  "qty", "stitching_model", "garment_model", "thobe", "column_break_cloth2",
   "delivery_type",
   "measurements_section",
   "length", "shoulder", "sleeve_length", "column_break_meas1",
@@ -28,6 +29,10 @@
   "special_button",
   "extras_section",
   "extra_items",
+  "bottom_measurements_section",
+  "bt_waist", "bt_length", "column_break_bt1",
+  "bt_hip", "bt_loose", "column_break_bt2",
+  "bt_style",
   "notes_section",
   "description_note"
  ],
@@ -119,6 +124,14 @@
    "label": "Cloth Details"
   },
   {
+   "fieldname": "garment_type",
+   "fieldtype": "Link",
+   "label": "Garment Type",
+   "options": "Garment Type",
+   "reqd": 0,
+   "in_list_view": 1
+  },
+  {
    "fieldname": "cloth_name",
    "fieldtype": "Select",
    "label": "Cloth Name"
@@ -145,10 +158,16 @@
    "label": "Stitching Model"
   },
   {
+   "fieldname": "garment_model",
+   "fieldtype": "Link",
+   "label": "Garment Model",
+   "options": "Style Option"
+  },
+  {
    "fieldname": "thobe",
-   "fieldtype": "Select",
+   "fieldtype": "Link",
    "label": "Thobe",
-   "options": "\nSaudi\nGulf\nKuwait\nOther"
+   "options": "Style Option"
   },
   {
    "fieldname": "column_break_cloth2",
@@ -170,21 +189,24 @@
    "fieldtype": "Float",
    "label": "Length",
    "description": "cm",
-   "reqd": 1
+   "reqd": 1,
+   "precision": "2"
   },
   {
    "fieldname": "shoulder",
    "fieldtype": "Float",
    "label": "Shoulder",
    "description": "cm",
-   "reqd": 1
+   "reqd": 1,
+   "precision": "2"
   },
   {
    "fieldname": "sleeve_length",
    "fieldtype": "Float",
    "label": "Sleeve Length",
    "description": "cm",
-   "reqd": 1
+   "reqd": 1,
+   "precision": "2"
   },
   {
    "fieldname": "column_break_meas1",
@@ -195,21 +217,24 @@
    "fieldtype": "Float",
    "label": "Loose 1",
    "description": "cm",
-   "reqd": 1
+   "reqd": 1,
+   "precision": "2"
   },
   {
    "fieldname": "loose_2",
    "fieldtype": "Float",
    "label": "Loose 2",
    "description": "cm",
-   "reqd": 1
+   "reqd": 1,
+   "precision": "2"
   },
   {
    "fieldname": "bottom",
    "fieldtype": "Float",
    "label": "Bottom",
    "description": "cm",
-   "reqd": 1
+   "reqd": 1,
+   "precision": "2"
   },
   {
    "fieldname": "column_break_meas2",
@@ -224,13 +249,15 @@
    "fieldname": "sleeve_loose",
    "fieldtype": "Float",
    "label": "Sleeve Loose",
-   "description": "cm"
+   "description": "cm",
+   "precision": "2"
   },
   {
    "fieldname": "shoulder_alt",
    "fieldtype": "Float",
    "label": "Shoulder Alt",
-   "description": "cm"
+   "description": "cm",
+   "precision": "2"
   },
   {
    "fieldname": "column_break_meas3",
@@ -240,7 +267,8 @@
    "fieldname": "sleeve_alt",
    "fieldtype": "Float",
    "label": "Sleeve Alt",
-   "description": "cm"
+   "description": "cm",
+   "precision": "2"
   },
   {
    "fieldname": "collar_neck_section",
@@ -249,15 +277,15 @@
   },
   {
    "fieldname": "collar_style",
-   "fieldtype": "Select",
+   "fieldtype": "Link",
    "label": "Collar Style",
-   "options": "\nSHAPE 2.5\" INSIDE PLASTIC\nSHAPE 2.25\" STEEL INSIDE\nSHAPE 2.25\" STEEL OUT\nSHAPE 2.25\" PLASTIC OUT\nSAADA 2.25\" INSIDE STEEL\nSAADA 2.25\" OUT SIDE PLASTIC\nSAADA 2.5 INSIDE PLASTIC\nSAADA 2.5 INSIDE STEEL\nFRANCY 2.25\" INSIDE PLASTIC\nFRANCY 2.25\" INSIDE STEEL\nSAADA INSIDE PLASTIC 1.75-1\nFRANCY 1.50 INSIDE PLASTIC\nFRANCY PLASTIC OUT 1.25\nSADA INSIDE PLASTIC 2.1\nOUT PLASTIC 1.50\nSADA PLASTIC INSIDE 2.5-1\nSADA PLASTIC INSIDE 2.25-1\nPLASTIC INSIDE SADA 1.5-1\n1.75-1 FRANCY INSIDE PLASTIC\nNONE\n2.25 FRANCY INSIDE PLASTIC\n3 INCH COLOR MALAKI\n2.25-1 SADA INSIDE PLASTIC SHAPE\n1.25-1 SADA INSIDE PLASTIC"
+   "options": "Style Option"
   },
   {
    "fieldname": "collar_type",
-   "fieldtype": "Select",
+   "fieldtype": "Link",
    "label": "Collar Type",
-   "options": "\nSelect Type\nNone\nOption 1\nOption 2"
+   "options": "Style Option"
   },
   {
    "fieldname": "column_break_cn1",
@@ -265,15 +293,15 @@
   },
   {
    "fieldname": "neck_style",
-   "fieldtype": "Select",
+   "fieldtype": "Link",
    "label": "Neck Style",
-   "options": "\nSelect Style\nSHAPE 2.5\" INSIDE PLASTIC\nSHAPE 2.25\" STEEL INSIDE\nSHAPE 2.25\" STEEL OUT\nSHAPE 2.25\" PLASTIC OUT\nSAADA 2.25\" INSIDE STEEL\nSAADA 2.25\" OUT SIDE PLASTIC\nSAADA 2.5 INSIDE PLASTIC\nSAADA 2.5 INSIDE STEEL\nFRANCY 2.25\" INSIDE PLASTIC\nFRANCY 2.25\" INSIDE STEEL\nSAADA INSIDE PLASTIC 1.75-1\nFRANCY 1.50 INSIDE PLASTIC\nFRANCY PLASTIC OUT 1.25\nSADA INSIDE PLASTIC 2.1\nOUT PLASTIC 1.50\nSADA PLASTIC INSIDE 2.5-1\nSADA PLASTIC INSIDE 2.25-1\nPLASTIC INSIDE SADA 1.5-1\n1.75-1 FRANCY INSIDE PLASTIC\nNONE\n2.25 FRANCY INSIDE PLASTIC\n3 INCH COLOR MALAKI\n2.25-1 SADA INSIDE PLASTIC SHAPE\n1.25-1 SADA INSIDE PLASTIC"
+   "options": "Style Option"
   },
   {
    "fieldname": "neck_type",
-   "fieldtype": "Select",
+   "fieldtype": "Link",
    "label": "Neck Type",
-   "options": "\nSelect Type\nNone\nOption 1\nOption 2"
+   "options": "Style Option"
   },
   {
    "fieldname": "hip_button_section",
@@ -282,15 +310,15 @@
   },
   {
    "fieldname": "hip",
-   "fieldtype": "Select",
+   "fieldtype": "Link",
    "label": "Hip",
-   "options": "\nSelect Type\nNone\nOption 1\nOption 2\nOption 3"
+   "options": "Style Option"
   },
   {
    "fieldname": "hip_type",
-   "fieldtype": "Select",
+   "fieldtype": "Link",
    "label": "Hip Type",
-   "options": "\nSelect Type\nNone\nOption 1\nOption 2\nOption 3"
+   "options": "Style Option"
   },
   {
    "fieldname": "column_break_hb1",
@@ -298,9 +326,9 @@
   },
   {
    "fieldname": "special_button",
-   "fieldtype": "Select",
+   "fieldtype": "Link",
    "label": "Special Button",
-   "options": "\nSelect Button\nSPECIAL BUTTONS\nNORMAL BUTTONS\nNO BUTTONS\nGAFIT BUTTONS"
+   "options": "Style Option"
   },
   {
    "fieldname": "extras_section",
@@ -313,6 +341,54 @@
    "fieldtype": "Table",
    "label": "Extra Items",
    "options": "Measurement Extra Item"
+  },
+  {
+   "fieldname": "bottom_measurements_section",
+   "fieldtype": "Section Break",
+   "label": "Bottom Measurements",
+   "collapsible": 1
+  },
+  {
+   "fieldname": "bt_waist",
+   "fieldtype": "Float",
+   "label": "Waist",
+   "description": "cm",
+   "precision": "2"
+  },
+  {
+   "fieldname": "bt_length",
+   "fieldtype": "Float",
+   "label": "Length",
+   "description": "cm",
+   "precision": "2"
+  },
+  {
+   "fieldname": "column_break_bt1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "bt_hip",
+   "fieldtype": "Float",
+   "label": "Hip",
+   "description": "cm",
+   "precision": "2"
+  },
+  {
+   "fieldname": "bt_loose",
+   "fieldtype": "Float",
+   "label": "Loose",
+   "description": "cm",
+   "precision": "2"
+  },
+  {
+   "fieldname": "column_break_bt2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "bt_style",
+   "fieldtype": "Link",
+   "label": "Bottom Style",
+   "options": "Style Option"
   },
   {
    "fieldname": "notes_section",
