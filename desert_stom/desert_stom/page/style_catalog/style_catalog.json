@@ -1,0 +1,12 @@
+{
+ "doctype": "Page",
+ "module": "Desert Stom",
+ "name": "style-catalog",
+ "page_name": "style-catalog",
+ "title": "Tailoring Style Catalog",
+ "system_page": 0,
+ "roles": [
+  {"role": "System Manager"},
+  {"role": "All"}
+ ]
+}

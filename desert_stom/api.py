@@ -294,8 +294,8 @@ def complete_order(so_name, values):
 		pe.submit()
 		result["pe"] = pe.name
 
-	# Create Delivery Note (only if SI is not handling stock via update_stock)
-	if create_dn and not create_si:
+	# Create Delivery Note when requested (SI has update_stock=0 when DN is also created)
+	if create_dn:
 		dn = frappe.new_doc("Delivery Note")
 		dn.customer = so.customer
 		dn.company = so.company
@@ -405,7 +405,7 @@ def process_sales_return(so_name, return_items, return_reason="",
 	create_refund = frappe.utils.cint(create_refund)
 
 	so = frappe.get_doc("Sales Order", so_name)
-	result = {"credit_note": None, "refund": None}
+	result = {"credit_note": None, "return_dn": None, "refund": None}
 
 	if not return_items:
 		frappe.throw(_("No items selected for return"))
@@ -414,6 +414,19 @@ def process_sales_return(so_name, return_items, return_reason="",
 	original_si = frappe.db.get_value(
 		"Sales Invoice Item",
 		{"sales_order": so_name, "docstatus": 1},
+		"parent",
+	)
+	original_si_update_stock = 0
+	if original_si:
+		original_si_update_stock = frappe.utils.cint(
+			frappe.db.get_value("Sales Invoice", original_si, "update_stock")
+		)
+
+	# Find the original Delivery Note linked to this SO (used when the order
+	# was completed with a separate DN instead of the invoice moving stock)
+	original_dn = frappe.db.get_value(
+		"Delivery Note Item",
+		{"against_sales_order": so_name, "docstatus": 1},
 		"parent",
 	)
 
@@ -430,7 +443,12 @@ def process_sales_return(so_name, return_items, return_reason="",
 		si.due_date = frappe.utils.today()
 		si.currency = so.currency
 		si.conversion_rate = so.conversion_rate
-		si.update_stock = 1
+		# Only reverse stock through the invoice if the original invoice itself
+		# moved stock. If delivery happened via a separate Delivery Note,
+		# stock is reversed via a Return Delivery Note below instead —
+		# ERPNext rejects update_stock=1 here otherwise ("items are not
+		# delivered via <invoice>").
+		si.update_stock = 1 if original_si_update_stock else 0
 
 		total_return_amount = 0
 		for ri in return_items:
@@ -466,6 +484,36 @@ def process_sales_return(so_name, return_items, return_reason="",
 		si.insert(ignore_permissions=True)
 		si.submit()
 		result["credit_note"] = si.name
+
+	# Create Return Delivery Note when the order was delivered via a separate
+	# DN (not the invoice) — this is what actually reverses the stock in that case.
+	if create_credit_note and original_dn and not original_si_update_stock:
+		dn = frappe.new_doc("Delivery Note")
+		dn.customer = so.customer
+		dn.company = so.company
+		dn.is_return = 1
+		dn.return_against = original_dn
+		dn.set_posting_time = 1
+		dn.posting_date = frappe.utils.today()
+		dn.currency = so.currency
+		dn.conversion_rate = so.conversion_rate
+
+		for ri in return_items:
+			qty = frappe.utils.flt(ri.get("qty", 1))
+			dn.append("items", {
+				"item_code": ri["item_code"],
+				"item_name": ri.get("item_name", ri["item_code"]),
+				"qty": qty * -1,
+				"rate": frappe.utils.flt(ri.get("rate", 0)),
+				"uom": frappe.db.get_value("Item", ri["item_code"], "stock_uom") or "Nos",
+				"warehouse": so.items[0].warehouse if so.items else None,
+				"against_sales_order": so_name,
+				"so_detail": ri.get("so_detail"),
+			})
+
+		dn.insert(ignore_permissions=True)
+		dn.submit()
+		result["return_dn"] = dn.name
 
 	# Create Refund Payment Entry
 	if create_refund and result.get("credit_note"):
