@@ -45,6 +45,7 @@ fixtures = [
 				"Sales Order-main-default_print_format",
 				"Sales Invoice-main-default_print_format",
 				"Customer-main-search_fields",
+				"Sales Order Item-uom-in_list_view",
 			]],
 		],
 	},

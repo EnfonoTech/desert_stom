@@ -31,7 +31,11 @@ frappe.pages['style-catalog'].on_page_load = function(wrapper) {
 		'Special Button',
 		'Thobe Model',
 		'Garment Model',
-		'Bottom Style'
+		'Bottom Style',
+		'Stitching Type',
+		'Patty Model', 'Patty Type',
+		'Front Pocket Type', 'Front Pocket Accessories',
+		'Side Pocket Type', 'Side Pocket Accessories'
 	];
 
 	var currentCategory = 'All';
@@ -182,7 +186,7 @@ frappe.pages['style-catalog'].on_page_load = function(wrapper) {
 					fieldtype: 'Select',
 					label: 'Category',
 					reqd: 1,
-					options: '\nCollar Style\nNeck Style\nCollar Type\nNeck Type\nHip\nHip Type\nSpecial Button\nThobe Model\nGarment Model',
+					options: '\n' + CATEGORIES.filter(function(c) { return c !== 'All'; }).join('\n'),
 					default: isEdit ? item.category : (currentCategory !== 'All' ? currentCategory : '')
 				},
 				{
