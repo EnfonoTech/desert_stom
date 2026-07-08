@@ -20,15 +20,18 @@
   border: 1px solid #E5E7EB !important;
   border-radius: 10px !important;
   margin-bottom: 12px !important;
-  overflow: hidden;
   box-shadow: 0 1px 2px rgba(0,0,0,0.03) !important;
 }
 
 /* Section headers */
+/* border-radius here (not overflow:hidden on .form-section) keeps the
+   rounded-card look without clipping dropdown/awesomplete popups that
+   need to overflow below the section (e.g. Link field search results). */
 [data-doctype="Tailoring Measurement"] .section-head,
 [data-doctype="Tailoring Measurement"] .form-section .head {
   background: #FAFBFC !important;
   border-bottom: 1px solid #E5E7EB !important;
+  border-radius: 9px 9px 0 0 !important;
   padding: 10px 16px !important;
 }
 

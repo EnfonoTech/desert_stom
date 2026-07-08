@@ -22,7 +22,7 @@
    "fieldname": "category",
    "fieldtype": "Select",
    "label": "Category",
-   "options": "\nCollar Style\nNeck Style\nCollar Type\nNeck Type\nHip\nHip Type\nSpecial Button\nThobe Model\nGarment Model\nBottom Style",
+   "options": "\nCollar Style\nNeck Style\nCollar Type\nNeck Type\nHip\nHip Type\nSpecial Button\nThobe Model\nGarment Model\nBottom Style\nStitching Type\nPatty Model\nPatty Type\nFront Pocket Type\nFront Pocket Accessories\nSide Pocket Type\nSide Pocket Accessories",
    "reqd": 1,
    "in_list_view": 1
   },

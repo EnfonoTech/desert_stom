@@ -476,6 +476,16 @@ function setup_visual_popups(frm) {
 	bind_db_popup_trigger(frm, "thobe", "Select Thobe Model", "Thobe Model", "Style Option", make_thobe_svg);
 	bind_db_popup_trigger(frm, "garment_model", "Select Garment Model", "Garment Model", "Style Option");
 	bind_db_popup_trigger(frm, "bt_style", "Select Bottom Style", "Bottom Style", "Style Option");
+
+	// Production-only custom fields (Pattern & Stitching / Front Patty / Pocket
+	// sections) — no-op automatically on sites where these fields don't exist.
+	bind_db_popup_trigger(frm, "custom_stitching_type_", "Select Stitching Type", "Stitching Type", "Style Option");
+	bind_db_popup_trigger(frm, "custom_patty_model", "Select Patty Model", "Patty Model", "Style Option");
+	bind_db_popup_trigger(frm, "custom_patty_type", "Select Patty Type", "Patty Type", "Style Option");
+	bind_db_popup_trigger(frm, "custom_front_pocket_type", "Select Front Pocket Type", "Front Pocket Type", "Style Option");
+	bind_db_popup_trigger(frm, "custom_front_pocket_accessories_if_any", "Select Front Pocket Accessories", "Front Pocket Accessories", "Style Option");
+	bind_db_popup_trigger(frm, "custom_side_pocket_type_", "Select Side Pocket Type", "Side Pocket Type", "Style Option");
+	bind_db_popup_trigger(frm, "custom_side_pocket_accessories_if_any", "Select Side Pocket Accessories", "Side Pocket Accessories", "Style Option");
 }
 
 function bind_db_popup_trigger(frm, fieldname, title, category, doctype, fallback_svg_fn) {
