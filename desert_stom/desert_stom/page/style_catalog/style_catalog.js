@@ -149,7 +149,7 @@ frappe.pages['style-catalog'].on_page_load = function(wrapper) {
 			e.stopPropagation();
 			var name = $(this).data('name');
 			frappe.confirm(
-				'<b>' + name + '</b> delete ചെയ്യണോ?',
+				'Do you want to delete <b>' + name + '</b>?',
 				function() {
 					frappe.call({
 						method: 'frappe.client.delete',

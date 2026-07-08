@@ -20,8 +20,15 @@ var GARMENT_CONFIG = {
 	'Bottom': {
 		// No top/body measurements needed — only the Bottom Measurements
 		// section (Waist, Hip, Length, Loose, Bottom Style) applies.
+		// Note: custom_* sections only exist on sites with the production
+		// custom fields (Pattern & Stitching, Sleeves, Front Patty) —
+		// hiding a field that doesn't exist on a given site is a no-op.
 		required: [],
-		hide_sections: ['collar_neck_section', 'hip_button_section', 'measurements_section']
+		hide_sections: [
+			'collar_neck_section', 'hip_button_section', 'measurements_section',
+			'custom_pattern__stitching_details', 'custom_sleeves_measurement',
+			'custom_front_patty_measurements_'
+		]
 	}
 };
 
@@ -32,7 +39,8 @@ var GARMENT_DEFAULT = {
 };
 
 var ALL_CONDITIONAL_SECTIONS = [
-	'collar_neck_section', 'hip_button_section', 'bottom_measurements_section', 'measurements_section'
+	'collar_neck_section', 'hip_button_section', 'bottom_measurements_section', 'measurements_section',
+	'custom_pattern__stitching_details', 'custom_sleeves_measurement', 'custom_front_patty_measurements_'
 ];
 
 var ALL_CONDITIONAL_REQUIRED = [
