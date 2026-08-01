@@ -585,3 +585,41 @@ def get_previous_measurements(customer):
 	if latest:
 		return latest[0]
 	return {}
+
+
+@frappe.whitelist()
+def get_customer_measurement_history(customer):
+	"""Get all past Tailoring Measurements for a customer, latest first."""
+	rows = frappe.get_all(
+		"Tailoring Measurement",
+		filters={"customer": customer, "docstatus": ["!=", 2]},
+		fields=["name", "measurement_date", "sales_order", "creation", "garment_type"],
+		order_by="creation desc",
+	)
+
+	for row in rows:
+		items = frappe.get_all(
+			"Measurement Item",
+			filters={"parent": row.name},
+			fields=["item_name", "item_code"],
+		)
+		unique_names = list(dict.fromkeys(i.item_name or i.item_code for i in items))
+		row["items"] = ", ".join(unique_names)
+
+	return rows
+
+
+@frappe.whitelist()
+def get_measurement_details(name):
+	"""Get full measurement field values for a specific Tailoring Measurement, to copy into a new one."""
+	measurement_fields = [
+		"name", "measurement_date", "measurements_json", "garment_type",
+		"length", "shoulder", "sleeve_length",
+		"loose_1", "loose_2", "bottom", "bottom_size",
+		"sleeve_loose", "shoulder_alt", "sleeve_alt",
+		"collar_style", "collar_type",
+		"neck_style", "neck_type",
+		"hip", "hip_type",
+		"special_button", "thobe", "delivery_type",
+	]
+	return frappe.db.get_value("Tailoring Measurement", name, measurement_fields, as_dict=True) or {}
