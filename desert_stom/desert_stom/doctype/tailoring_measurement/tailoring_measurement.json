@@ -265,10 +265,9 @@
   },
   {
    "fieldname": "sleeve_alt",
-   "fieldtype": "Float",
-   "label": "Sleeve Alt",
-   "description": "cm",
-   "precision": "2"
+   "fieldtype": "Link",
+   "label": "Sleeve Type",
+   "options": "Style Option"
   },
   {
    "fieldname": "collar_neck_section",

@@ -486,6 +486,9 @@ function setup_visual_popups(frm) {
 	bind_db_popup_trigger(frm, "custom_front_pocket_accessories_if_any", "Select Front Pocket Accessories", "Front Pocket Accessories", "Style Option");
 	bind_db_popup_trigger(frm, "custom_side_pocket_type_", "Select Side Pocket Type", "Side Pocket Type", "Style Option");
 	bind_db_popup_trigger(frm, "custom_side_pocket_accessories_if_any", "Select Side Pocket Accessories", "Side Pocket Accessories", "Style Option");
+	bind_db_popup_trigger(frm, "sleeve_alt", "Select Sleeve Type", "Sleeve Type", "Style Option");
+	bind_db_popup_trigger(frm, "custom_cuff_type", "Select Cuff Type", "Cuff Type", "Style Option");
+	bind_db_popup_trigger(frm, "custom_pocket_style", "Select Pocket Style", "Pocket Style", "Style Option");
 }
 
 function bind_db_popup_trigger(frm, fieldname, title, category, doctype, fallback_svg_fn) {

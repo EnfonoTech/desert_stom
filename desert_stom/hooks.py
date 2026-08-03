@@ -24,13 +24,17 @@ fixtures = [
 	{
 		"dt": "Custom Field",
 		"filters": [
-			["dt", "in", ["Sales Order", "Customer"]],
+			["dt", "in", ["Sales Order", "Customer", "Tailoring Measurement"]],
 			["fieldname", "in", [
-				"stitching_status", "advance_collected",
+				"stitching_status", "return_reason", "advance_collected",
 				"outstanding_amount", "measurement_count",
 				"customer_phone", "custom_phone",
 				"profit_loss_section", "item_cost", "stitching_cost",
 				"total_cost", "profit_cb", "revenue", "estimated_profit",
+				"custom_pocket_style", "custom_cuff_type", "custom_stitching_type_",
+				"custom_patty_model", "custom_patty_type",
+				"custom_front_pocket_type", "custom_front_pocket_accessories_if_any",
+				"custom_side_pocket_type_", "custom_side_pocket_accessories_if_any",
 			]],
 		],
 	},
@@ -54,7 +58,7 @@ fixtures = [
 	},
 	{
 		"dt": "Style Option",
-	},
+	}
 ]
 
 # Dashboard overrides

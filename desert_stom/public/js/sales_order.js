@@ -41,6 +41,16 @@ frappe.ui.form.on("Sales Order", {
 			frm.page.set_indicator(frm.doc.stitching_status, colors[frm.doc.stitching_status] || "gray");
 		}
 
+		// Prominent banner for rework reason (visible to manufacturing/stitching staff)
+		if (frm.doc.return_reason && ["Job Order", "Processing"].includes(frm.doc.stitching_status)) {
+			frm.dashboard.set_headline_alert(
+				`<div style="padding:8px 4px;">
+					⚠️ <strong>${__("Rework Needed")}:</strong> ${frappe.utils.escape_html(frm.doc.return_reason)}
+				</div>`,
+				"orange"
+			);
+		}
+
 		// Remove unwanted Create options added by ERPNext core
 		if (frm.doc.docstatus === 1) {
 			setTimeout(() => {
@@ -59,6 +69,29 @@ frappe.ui.form.on("Sales Order", {
 			// Add Measurement button
 			frm.add_custom_button(__("Add Measurement"), () => {
 				show_measurement_dialog(frm);
+			}, __("Measurements"));
+
+			// View Measurement button — jump straight to the measurement(s) for this order
+			frm.add_custom_button(__("View Measurement"), () => {
+				frappe.call({
+					method: "frappe.client.get_list",
+					args: {
+						doctype: "Tailoring Measurement",
+						filters: { sales_order: frm.doc.name },
+						fields: ["name"],
+						order_by: "creation desc",
+					},
+					callback(r) {
+						const rows = r.message || [];
+						if (rows.length === 0) {
+							frappe.msgprint(__("No measurement has been recorded for this order yet."));
+						} else if (rows.length === 1) {
+							frappe.set_route("Form", "Tailoring Measurement", rows[0].name);
+						} else {
+							frappe.set_route("List", "Tailoring Measurement", { sales_order: frm.doc.name });
+						}
+					}
+				});
 			}, __("Measurements"));
 
 			// Show measurement count and calculate profit/loss
@@ -134,7 +167,12 @@ frappe.ui.form.on("Sales Order", {
 			}
 
 			// Complete Order button (only when Ready for Delivery)
-			if (st === "Ready for Delivery") {
+			// Manufacturing User (without a higher sales/admin role) can take an
+			// order up to Ready for Delivery, but cannot finalize/deliver it.
+			const is_manufacturing_only = frappe.user.has_role("Manufacturing User")
+				&& !frappe.user.has_role("Sales Manager")
+				&& !frappe.user.has_role("System Manager");
+			if (st === "Ready for Delivery" && !is_manufacturing_only) {
 				frm.add_custom_button(__("Complete Order"), () => {
 					show_completion_dialog(frm);
 				});
@@ -181,7 +219,7 @@ function show_measurement_dialog(frm) {
 			{
 				fieldname: "copy_previous",
 				fieldtype: "Check",
-				label: __("Copy from latest measurement"),
+				label: __("Copy from selected measurement below"),
 				default: 0,
 			},
 			{
@@ -280,9 +318,10 @@ function show_measurement_dialog(frm) {
 								cur_frm.doc[key] = prev_data[key];
 							}
 						});
-						// Also copy thobe and delivery_type
+						// Also copy thobe, delivery_type and garment_type
 						if (prev_data.thobe) cur_frm.doc.thobe = prev_data.thobe;
 						if (prev_data.delivery_type) cur_frm.doc.delivery_type = prev_data.delivery_type;
+						if (prev_data.garment_type) cur_frm.doc.garment_type = prev_data.garment_type;
 
 						// Save into measurements_json so load_from_json won't clear them
 						// Store same values for ALL items (customer's measurements apply to all)
@@ -320,24 +359,53 @@ function show_measurement_dialog(frm) {
 		},
 	});
 
-	// Check for previous customer measurements
+	// Fetch full field values for one previous measurement, to use as the copy source
+	function _load_copy_source(frm_dialog, name) {
+		frappe.call({
+			method: "desert_stom.api.get_measurement_details",
+			args: { name: name },
+			callback(r) {
+				frm_dialog._previous_measurement = r.message || null;
+			},
+		});
+	}
+
+	// Show the full measurement history for this customer, latest first,
+	// and let the user pick which one to copy from.
 	frappe.call({
-		method: "desert_stom.api.get_previous_measurements",
+		method: "desert_stom.api.get_customer_measurement_history",
 		args: { customer: frm.doc.customer },
 		callback(r) {
-			if (r.message && r.message.name) {
-				d._previous_measurement = r.message;
-				d.fields_dict.previous_info.$wrapper.html(
-					`<p class="text-muted">Found previous measurement:
-					<a href="/app/tailoring-measurement/${r.message.name}" target="_blank">${r.message.name}</a>
-					(${r.message.measurement_date || ""})</p>`,
-				);
-			} else {
+			const rows = r.message || [];
+			if (!rows.length) {
 				d.fields_dict.previous_info.$wrapper.html(
 					'<p class="text-muted">No previous measurements found for this customer.</p>',
 				);
 				d.set_df_property("copy_previous", "hidden", 1);
+				return;
 			}
+			const list_html = rows.map((row, idx) => (
+				`<li style="margin-bottom:3px;">
+					<label style="font-weight:normal;font-size:12px;">
+						<input type="radio" name="copy_source_measurement" value="${row.name}" ${idx === 0 ? "checked" : ""}>
+						<a href="/app/tailoring-measurement/${row.name}" target="_blank">${row.name}</a>
+						— ${row.measurement_date || __("no date")}
+						${row.items ? `— ${row.items}` : ""}
+						${row.garment_type ? `(<strong>${row.garment_type}</strong>)` : ""}
+					</label>
+				</li>`
+			)).join("");
+			d.fields_dict.previous_info.$wrapper.html(
+				`<p class="text-muted" style="font-size:12px;">${__("Measurement history for this customer (latest first)")}:</p>
+				<ul style="padding-left:6px;list-style:none;max-height:150px;overflow-y:auto;">${list_html}</ul>`,
+			);
+
+			// Default selection: the latest one (first row)
+			_load_copy_source(d, rows[0].name);
+
+			d.fields_dict.previous_info.$wrapper.on("change", "input[name='copy_source_measurement']", function() {
+				_load_copy_source(d, $(this).val());
+			});
 		},
 	});
 
@@ -641,12 +709,38 @@ function show_completion_dialog(frm) {
 
 
 function update_stitching_status(frm, new_status, send_whatsapp) {
+	var completed_reason = null;
+	if (new_status === "Process Completed" && frm.doc.return_reason) {
+		completed_reason = frm.doc.return_reason;
+		frm.set_value("return_reason", "");
+	}
 	frm.set_value("stitching_status", new_status);
 	frm.save("Update").then(() => {
-		frappe.show_alert({
-			message: __("Status updated to {0}", [new_status]),
-			indicator: "green",
-		});
+		if (completed_reason) {
+			frappe.call({
+				method: "frappe.client.insert",
+				args: {
+					doc: {
+						doctype: "Comment",
+						comment_type: "Comment",
+						reference_doctype: frm.doctype,
+						reference_name: frm.docname,
+						content: __("Rework completed: {0}", [completed_reason]),
+					}
+				}
+			});
+		}
+		if (completed_reason) {
+			frappe.show_alert({
+				message: __("Rework completed: {0}", [completed_reason]),
+				indicator: "green",
+			}, 7);
+		} else {
+			frappe.show_alert({
+				message: __("Status updated to {0}", [new_status]),
+				indicator: "green",
+			});
+		}
 		if (send_whatsapp) {
 			send_status_whatsapp(frm, new_status);
 		}
@@ -676,7 +770,20 @@ function show_return_to_job_order_dialog(frm) {
 		primary_action_label: __("Return to Job Order"),
 		primary_action: function(values) {
 			frm.set_value("stitching_status", "Job Order");
+			frm.set_value("return_reason", values.reason);
 			frm.save("Update").then(() => {
+				frappe.call({
+					method: "frappe.client.insert",
+					args: {
+						doc: {
+							doctype: "Comment",
+							comment_type: "Comment",
+							reference_doctype: frm.doctype,
+							reference_name: frm.docname,
+							content: __("Returned to Job Order for rework: {0}", [values.reason]),
+						}
+					}
+				});
 				frappe.show_alert({
 					message: __("Order returned to Job Order stage"),
 					indicator: "orange",

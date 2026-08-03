@@ -35,7 +35,9 @@ frappe.pages['style-catalog'].on_page_load = function(wrapper) {
 		'Stitching Type',
 		'Patty Model', 'Patty Type',
 		'Front Pocket Type', 'Front Pocket Accessories',
-		'Side Pocket Type', 'Side Pocket Accessories'
+		'Side Pocket Type', 'Side Pocket Accessories',
+		'Sleeve Type', 'Cuff Type',
+		'Pocket Style'
 	];
 
 	var currentCategory = 'All';
