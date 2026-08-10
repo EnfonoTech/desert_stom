@@ -38,7 +38,11 @@ frappe.ui.form.on("Sales Order", {
 			Delivered: "darkgrey",
 		};
 		if (frm.doc.stitching_status) {
-			frm.page.set_indicator(frm.doc.stitching_status, colors[frm.doc.stitching_status] || "gray");
+			let indicator_label = frm.doc.stitching_status;
+			if (frm.doc.return_reason && ["Job Order", "Processing"].includes(frm.doc.stitching_status)) {
+				indicator_label = frm.doc.stitching_status + " (Returned)";
+			}
+			frm.page.set_indicator(indicator_label, colors[frm.doc.stitching_status] || "gray");
 		}
 
 		// Prominent banner for rework reason (visible to manufacturing/stitching staff)
@@ -115,7 +119,11 @@ frappe.ui.form.on("Sales Order", {
 						frm.page.clear_indicator();
 						// Restore stitching status indicator
 						if (frm.doc.stitching_status) {
-							frm.page.set_indicator(frm.doc.stitching_status, colors[frm.doc.stitching_status] || "gray");
+							let indicator_label = frm.doc.stitching_status;
+							if (frm.doc.return_reason && ["Job Order", "Processing"].includes(frm.doc.stitching_status)) {
+								indicator_label = frm.doc.stitching_status + " (Returned)";
+							}
+							frm.page.set_indicator(indicator_label, colors[frm.doc.stitching_status] || "gray");
 						}
 
 						// Color the profit field green/red

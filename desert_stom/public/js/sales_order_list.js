@@ -8,6 +8,9 @@ if (settings) {
 	if (!settings.add_fields.includes("stitching_status")) {
 		settings.add_fields.push("stitching_status");
 	}
+	if (!settings.add_fields.includes("return_reason")) {
+		settings.add_fields.push("return_reason");
+	}
 
 	// Wrap ERPNext's get_indicator
 	var _orig = settings.get_indicator;
@@ -23,8 +26,12 @@ if (settings) {
 				"Ready for Delivery": "green",
 				Delivered: "darkgrey",
 			};
+			var label = doc.stitching_status;
+			if (doc.return_reason && ["Job Order", "Processing"].includes(doc.stitching_status)) {
+				label = doc.stitching_status + " (Returned)";
+			}
 			return [
-				__(doc.stitching_status),
+				__(label),
 				colors[doc.stitching_status] || "gray",
 				"stitching_status,=," + doc.stitching_status,
 			];
