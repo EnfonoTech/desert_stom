@@ -34,7 +34,8 @@
   "bt_hip", "bt_loose", "column_break_bt2",
   "bt_style",
   "notes_section",
-  "description_note"
+  "description_note",
+  "amended_from"
  ],
  "fields": [
   {
@@ -398,6 +399,15 @@
    "fieldname": "description_note",
    "fieldtype": "Small Text",
    "label": "Description Note"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Tailoring Measurement",
+   "print_hide": 1,
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 0,
