@@ -128,6 +128,9 @@ frappe.ui.form.on("Tailoring Measurement", {
 
 		// Show item indicator
 		inject_item_indicator(frm);
+
+		// Show a thumbnail preview of every selected Style Option value
+		refresh_style_preview(frm);
 	},
 
 	before_save(frm) {
@@ -460,6 +463,68 @@ function update_progress(frm) {
    VISUAL POPUP SELECTORS
    Show image cards in a popup when dropdown is clicked
    ═══════════════════════════════════════════════════════════ */
+
+var STYLE_PREVIEW_FIELDS = [
+	["collar_style", "Collar Style"],
+	["neck_style", "Neck Style"],
+	["collar_type", "Collar Type"],
+	["neck_type", "Neck Type"],
+	["hip", "Hip"],
+	["hip_type", "Hip Type"],
+	["special_button", "Buttons"],
+	["thobe", "Thobe Model"],
+	["garment_model", "Garment Model"],
+	["bt_style", "Bottom Style"],
+	["sleeve_alt", "Sleeve Type"],
+	["custom_cuff_type", "Cuff Type"],
+	["custom_pocket_style", "Pocket Style"],
+	["custom_stitching_type_", "Stitching Type"],
+	["custom_patty_model", "Patty Model"],
+	["custom_patty_type", "Patty Type"],
+	["custom_front_pocket_type", "Front Pocket Type"],
+	["custom_front_pocket_accessories_if_any", "Front Pocket Accessories"],
+	["custom_side_pocket_type_", "Side Pocket Type"],
+	["custom_side_pocket_accessories_if_any", "Side Pocket Accessories"],
+];
+
+function refresh_style_preview(frm) {
+	if (!frm.fields_dict.style_preview_html) return;
+
+	var selected = STYLE_PREVIEW_FIELDS
+		.filter(function(f) { return frm.doc[f[0]]; })
+		.map(function(f) { return { fieldname: f[0], label: f[1], value: frm.doc[f[0]] }; });
+
+	if (!selected.length) {
+		frm.fields_dict.style_preview_html.$wrapper.html(
+			'<p class="text-muted">No styles selected yet.</p>'
+		);
+		return;
+	}
+
+	frappe.call({
+		method: "desert_stom.api.get_style_option_images",
+		args: { names: selected.map(function(s) { return s.value; }) },
+		callback(r) {
+			var images = r.message || {};
+			var html = selected.map(function(s) {
+				var img = images[s.value];
+				var thumb = img
+					? '<img src="' + img + '" style="width:70px;height:70px;object-fit:cover;border-radius:6px;border:1px solid #ddd;">'
+					: '<div style="width:70px;height:70px;border-radius:6px;border:1px dashed #ccc;display:flex;align-items:center;justify-content:center;font-size:10px;color:#aaa;">No image</div>';
+				return (
+					'<div style="display:inline-flex;flex-direction:column;align-items:center;gap:4px;margin:0 12px 12px 0;">' +
+					thumb +
+					'<span style="font-size:11px;color:#666;text-align:center;max-width:80px;">' + frappe.utils.escape_html(s.label) + '</span>' +
+					'<span style="font-size:11px;font-weight:600;color:#333;text-align:center;max-width:80px;">' + frappe.utils.escape_html(s.value) + '</span>' +
+					'</div>'
+				);
+			}).join("");
+			frm.fields_dict.style_preview_html.$wrapper.html(
+				'<div style="display:flex;flex-wrap:wrap;">' + html + '</div>'
+			);
+		},
+	});
+}
 
 function setup_visual_popups(frm) {
 	var isReadOnly = frm.doc.docstatus === 1 || frm.doc.docstatus === 2;
