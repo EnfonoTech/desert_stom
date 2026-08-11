@@ -623,3 +623,19 @@ def get_measurement_details(name):
 		"special_button", "thobe", "delivery_type",
 	]
 	return frappe.db.get_value("Tailoring Measurement", name, measurement_fields, as_dict=True) or {}
+
+
+@frappe.whitelist()
+def get_style_option_images(names):
+	"""Get {name: image} for a list of Style Option names, for preview thumbnails."""
+	names = frappe.parse_json(names)
+	names = [n for n in names if n]
+	if not names:
+		return {}
+
+	rows = frappe.get_all(
+		"Style Option",
+		filters={"name": ["in", names]},
+		fields=["name", "image"],
+	)
+	return {row.name: row.image for row in rows}
