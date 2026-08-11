@@ -5,34 +5,67 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "naming_series", "sales_order", "customer", "customer_name", "column_break_hdr1",
-  "phone_no", "measurement_date", "promise_date", "column_break_hdr2",
+  "naming_series",
+  "sales_order",
+  "customer",
+  "customer_name",
+  "column_break_hdr1",
+  "phone_no",
+  "measurement_date",
+  "promise_date",
+  "column_break_hdr2",
   "delivery_date",
   "cloth_info_section",
   "measurement_items",
   "measurements_json",
   "cloth_details_section",
   "garment_type",
-  "cloth_name", "cloth_no", "column_break_cloth1",
-  "qty", "stitching_model", "garment_model", "thobe", "column_break_cloth2",
+  "cloth_name",
+  "cloth_no",
+  "column_break_cloth1",
+  "qty",
+  "stitching_model",
+  "garment_model",
+  "thobe",
+  "column_break_cloth2",
   "delivery_type",
   "measurements_section",
-  "length", "shoulder", "sleeve_length", "column_break_meas1",
-  "loose_1", "loose_2", "bottom", "column_break_meas2",
-  "bottom_size", "sleeve_loose", "shoulder_alt", "column_break_meas3",
+  "length",
+  "shoulder",
+  "sleeve_length",
+  "column_break_meas1",
+  "loose_1",
+  "loose_2",
+  "bottom",
+  "column_break_meas2",
+  "bottom_size",
+  "sleeve_loose",
+  "shoulder_alt",
+  "column_break_meas3",
   "sleeve_alt",
   "collar_neck_section",
-  "collar_style", "collar_type", "column_break_cn1",
-  "neck_style", "neck_type",
+  "collar_style",
+  "collar_type",
+  "column_break_cn1",
+  "neck_style",
+  "neck_type",
   "hip_button_section",
-  "hip", "hip_type", "column_break_hb1",
+  "hip",
+  "hip_type",
+  "column_break_hb1",
   "special_button",
   "extras_section",
   "extra_items",
   "bottom_measurements_section",
-  "bt_waist", "bt_length", "column_break_bt1",
-  "bt_hip", "bt_loose", "column_break_bt2",
+  "bt_waist",
+  "bt_length",
+  "column_break_bt1",
+  "bt_hip",
+  "bt_loose",
+  "column_break_bt2",
   "bt_style",
+  "style_preview_section",
+  "style_preview_html",
   "notes_section",
   "description_note",
   "amended_from"
@@ -188,24 +221,21 @@
   {
    "fieldname": "length",
    "fieldtype": "Float",
-   "label": "Length",
-   "description": "cm",
+   "label": "Length (cm)",
    "reqd": 1,
    "precision": "2"
   },
   {
    "fieldname": "shoulder",
    "fieldtype": "Float",
-   "label": "Shoulder",
-   "description": "cm",
+   "label": "Shoulder (cm)",
    "reqd": 1,
    "precision": "2"
   },
   {
    "fieldname": "sleeve_length",
    "fieldtype": "Float",
-   "label": "Sleeve Length",
-   "description": "cm",
+   "label": "Sleeve Length (cm)",
    "reqd": 1,
    "precision": "2"
   },
@@ -216,24 +246,21 @@
   {
    "fieldname": "loose_1",
    "fieldtype": "Float",
-   "label": "Loose 1",
-   "description": "cm",
+   "label": "Loose 1 (cm)",
    "reqd": 1,
    "precision": "2"
   },
   {
    "fieldname": "loose_2",
    "fieldtype": "Float",
-   "label": "Loose 2",
-   "description": "cm",
+   "label": "Loose 2 (cm)",
    "reqd": 1,
    "precision": "2"
   },
   {
    "fieldname": "bottom",
    "fieldtype": "Float",
-   "label": "Bottom",
-   "description": "cm",
+   "label": "Bottom (cm)",
    "reqd": 1,
    "precision": "2"
   },
@@ -249,15 +276,13 @@
   {
    "fieldname": "sleeve_loose",
    "fieldtype": "Float",
-   "label": "Sleeve Loose",
-   "description": "cm",
+   "label": "Sleeve Loose (cm)",
    "precision": "2"
   },
   {
    "fieldname": "shoulder_alt",
    "fieldtype": "Float",
-   "label": "Shoulder Alt",
-   "description": "cm",
+   "label": "Shoulder Alt (cm)",
    "precision": "2"
   },
   {
@@ -351,15 +376,13 @@
   {
    "fieldname": "bt_waist",
    "fieldtype": "Float",
-   "label": "Waist",
-   "description": "cm",
+   "label": "Waist (cm)",
    "precision": "2"
   },
   {
    "fieldname": "bt_length",
    "fieldtype": "Float",
-   "label": "Length",
-   "description": "cm",
+   "label": "Length (cm)",
    "precision": "2"
   },
   {
@@ -369,15 +392,13 @@
   {
    "fieldname": "bt_hip",
    "fieldtype": "Float",
-   "label": "Hip",
-   "description": "cm",
+   "label": "Hip (cm)",
    "precision": "2"
   },
   {
    "fieldname": "bt_loose",
    "fieldtype": "Float",
-   "label": "Loose",
-   "description": "cm",
+   "label": "Loose (cm)",
    "precision": "2"
   },
   {
@@ -389,6 +410,15 @@
    "fieldtype": "Link",
    "label": "Bottom Style",
    "options": "Style Option"
+  },
+  {
+   "fieldname": "style_preview_section",
+   "fieldtype": "Section Break",
+   "label": "Selected Styles"
+  },
+  {
+   "fieldname": "style_preview_html",
+   "fieldtype": "HTML"
   },
   {
    "fieldname": "notes_section",
