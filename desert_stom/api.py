@@ -621,6 +621,15 @@ def get_measurement_details(name):
 		"neck_style", "neck_type",
 		"hip", "hip_type",
 		"special_button", "thobe", "delivery_type",
+		"custom_stitching_type_", "custom_kally_piece_",
+		"custom_sleeve_loose_2", "custom_sleeve_loose_3", "custom_sleeve_loose_3_copy",
+		"custom_collar_length", "custom_neck_width",
+		"custom_patty_length", "custom_patty_model", "custom_patty_type",
+		"custom_front_pocket_line_length", "custom_front_pocket_width",
+		"custom_front_pocket_type", "custom_front_pocket_accessories_if_any",
+		"custom_side_pocket_line_length_", "custom_side_pocket_length_",
+		"custom_side_pocket_type_", "custom_side_pocket_accessories_if_any",
+		"custom_pocket_style", "custom_cuff_type", "custom_cuff_length",
 	]
 	return frappe.db.get_value("Tailoring Measurement", name, measurement_fields, as_dict=True) or {}
 

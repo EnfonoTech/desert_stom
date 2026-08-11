@@ -75,7 +75,7 @@
   box-shadow: 0 0 0 3px rgba(37,99,235,0.12) !important;
 }
 
-/* Measurement float fields — large monospace */
+/* Measurement float fields — monospace */
 [data-doctype="Tailoring Measurement"] [data-fieldname="length"] input,
 [data-doctype="Tailoring Measurement"] [data-fieldname="shoulder"] input,
 [data-doctype="Tailoring Measurement"] [data-fieldname="sleeve_length"] input,
@@ -84,7 +84,7 @@
 [data-doctype="Tailoring Measurement"] [data-fieldname="bottom"] input,
 [data-doctype="Tailoring Measurement"] [data-fieldname="sleeve_loose"] input {
   font-family: 'JetBrains Mono', 'SF Mono', monospace !important;
-  font-size: 18px !important;
+  font-size: 14px !important;
   font-weight: 600 !important;
   text-align: center !important;
 }
@@ -94,7 +94,7 @@
 [data-doctype="Tailoring Measurement"] [data-fieldname="sleeve_length"] {
   background: rgba(37,99,235,0.04) !important;
   border-radius: 6px;
-  padding: 4px !important;
+  padding: 2px !important;
 }
 
 [data-doctype="Tailoring Measurement"] [data-fieldname="length"] input,
@@ -118,7 +118,7 @@
 [data-doctype="Tailoring Measurement"] [data-fieldname="length"] .like-disabled-input,
 [data-doctype="Tailoring Measurement"] [data-fieldname="sleeve_length"] .like-disabled-input {
   font-family: 'JetBrains Mono', monospace !important;
-  font-size: 18px !important;
+  font-size: 14px !important;
   font-weight: 600 !important;
   text-align: center !important;
   color: #2563EB !important;
