@@ -518,7 +518,7 @@ function refresh_style_preview(frm) {
 			var html = selected.map(function(s) {
 				var img = images[s.value];
 				var thumb = img
-					? '<img src="' + img + '" style="width:70px;height:70px;object-fit:cover;border-radius:6px;border:1px solid #ddd;">'
+					? '<img src="' + img + '" style="width:70px;height:70px;object-fit:cover;border-radius:6px;border:1px solid #ddd;" onerror="this.outerHTML=\'<div style=&quot;width:70px;height:70px;border-radius:6px;border:1px dashed #ccc;display:flex;align-items:center;justify-content:center;font-size:10px;color:#aaa;&quot;>No image</div>\'">'
 					: '<div style="width:70px;height:70px;border-radius:6px;border:1px dashed #ccc;display:flex;align-items:center;justify-content:center;font-size:10px;color:#aaa;">No image</div>';
 				return (
 					'<div style="display:inline-flex;flex-direction:column;align-items:center;gap:4px;margin:0 12px 12px 0;">' +
