@@ -77,6 +77,39 @@ def create_advance_payment(so_name, amount, mode_of_payment, reference_no=""):
 
 
 @frappe.whitelist()
+def get_available_advance(so_name):
+	"""Total advance available to apply against this order's invoice.
+
+	Sales Invoice (with allocate_advances_automatically) pulls in not just
+	advance payments linked to this SO, but any other unallocated advance
+	the customer has. advance_collected on the SO only tracks the former,
+	so callers that need the true amount the invoice will consume (e.g. to
+	show how much is left to collect) must add both.
+	"""
+	from erpnext.accounts.party import get_party_account
+
+	so = frappe.get_doc("Sales Order", so_name)
+	so_linked_advance = frappe.utils.flt(so.advance_collected)
+
+	party_account = get_party_account("Customer", so.customer, so.company)
+
+	other_unallocated = frappe.utils.flt(frappe.db.sql("""
+		SELECT COALESCE(SUM(unallocated_amount), 0)
+		FROM `tabPayment Entry`
+		WHERE party_type = 'Customer' AND party = %s AND company = %s
+			AND docstatus = 1 AND payment_type = 'Receive'
+			AND paid_from = %s
+			AND unallocated_amount > 0
+	""", (so.customer, so.company, party_account))[0][0])
+
+	return {
+		"so_linked_advance": so_linked_advance,
+		"other_unallocated_advance": other_unallocated,
+		"total_available_advance": so_linked_advance + other_unallocated,
+	}
+
+
+@frappe.whitelist()
 def create_sales_invoice(so_name, selected_items=None, update_stock=1):
 	"""Create a Sales Invoice from a Sales Order."""
 	so = frappe.get_doc("Sales Order", so_name)
@@ -244,55 +277,86 @@ def complete_order(so_name, values):
 		target_doctype = "Sales Invoice" if result["si"] else "Sales Order"
 		target_name = result["si"] or so_name
 
-		company = so.company
-		mop_doc = frappe.get_doc("Mode of Payment", mode_of_payment)
-		account = None
-		for acc in mop_doc.accounts:
-			if acc.company == company:
-				account = acc.default_account
-				break
-
-		if not account:
-			account = frappe.get_cached_value(
-				"Company", company, "default_cash_account"
-			) or frappe.get_cached_value("Company", company, "default_bank_account")
-
-		# Get actual outstanding amount to avoid over-allocation
+		# If a Sales Invoice was created, advances (possibly more than this
+		# SO's own advance_collected, e.g. other unallocated advance from the
+		# same customer) may already cover it in full — don't collect more.
+		skip_pe = False
+		outstanding = None
 		if target_doctype == "Sales Invoice":
 			outstanding = frappe.utils.flt(
 				frappe.db.get_value("Sales Invoice", target_name, "outstanding_amount")
 			)
-			allocated = min(payment_amount, outstanding) if outstanding > 0 else payment_amount
-		else:
-			allocated = payment_amount
+			if outstanding <= 0:
+				skip_pe = True
+				frappe.msgprint(
+					_(
+						"{0} is already fully paid by advance credit already applied to it — "
+						"no additional payment was collected."
+					).format(target_name),
+					title=_("Already Paid"),
+					indicator="blue",
+				)
 
-		pe = frappe.new_doc("Payment Entry")
-		pe.payment_type = "Receive"
-		pe.party_type = "Customer"
-		pe.party = so.customer
-		pe.company = company
-		pe.mode_of_payment = mode_of_payment
-		pe.paid_from = frappe.get_cached_value(
-			"Company", company, "default_receivable_account"
-		)
-		pe.paid_to = account
-		pe.paid_amount = payment_amount
-		pe.received_amount = payment_amount
-		pe.reference_no = result["si"] or so_name
-		pe.reference_date = frappe.utils.today()
+		if not skip_pe:
+			allocated = min(payment_amount, outstanding) if outstanding else payment_amount
 
-		pe.append(
-			"references",
-			{
-				"reference_doctype": target_doctype,
-				"reference_name": target_name,
-				"allocated_amount": allocated,
-			},
-		)
+			company = so.company
+			mop_doc = frappe.get_doc("Mode of Payment", mode_of_payment)
+			account = None
+			for acc in mop_doc.accounts:
+				if acc.company == company:
+					account = acc.default_account
+					break
 
-		pe.insert(ignore_permissions=True)
-		pe.submit()
-		result["pe"] = pe.name
+			if not account:
+				account = frappe.get_cached_value(
+					"Company", company, "default_cash_account"
+				) or frappe.get_cached_value("Company", company, "default_bank_account")
+
+			pe = frappe.new_doc("Payment Entry")
+			pe.payment_type = "Receive"
+			pe.party_type = "Customer"
+			pe.party = so.customer
+			pe.company = company
+			pe.mode_of_payment = mode_of_payment
+			pe.paid_from = frappe.get_cached_value(
+				"Company", company, "default_receivable_account"
+			)
+			pe.paid_to = account
+			pe.paid_amount = payment_amount
+			pe.received_amount = payment_amount
+			pe.reference_no = result["si"] or so_name
+			pe.reference_date = frappe.utils.today()
+
+			pe.append(
+				"references",
+				{
+					"reference_doctype": target_doctype,
+					"reference_name": target_name,
+					"allocated_amount": allocated,
+				},
+			)
+
+			pe.insert(ignore_permissions=True)
+			pe.submit()
+			result["pe"] = pe.name
+
+			pe.reload()
+			if pe.unallocated_amount > 0:
+				frappe.msgprint(
+					_(
+						"{0} of the {1} collected could not be applied to {2} — the customer already had"
+						" advance credit auto-applied to it. The remaining {0} is kept as unallocated"
+						" credit on the customer's account (Payment Entry {3})."
+					).format(
+						frappe.utils.fmt_money(pe.unallocated_amount, currency=so.currency),
+						frappe.utils.fmt_money(payment_amount, currency=so.currency),
+						target_name,
+						pe.name,
+					),
+					title=_("Extra Advance Not Allocated"),
+					indicator="orange",
+				)
 
 	# Create Delivery Note when requested (SI has update_stock=0 when DN is also created)
 	if create_dn:

@@ -487,6 +487,25 @@ function show_advance_dialog(frm) {
 
 
 function show_completion_dialog(frm) {
+	// The Sales Invoice auto-pulls in ANY unallocated advance the customer
+	// has, not just advance linked to this SO — fetch the true total first
+	// so "Payment Amount Now" isn't overstated.
+	frappe.call({
+		method: "desert_stom.api.get_available_advance",
+		args: { so_name: frm.doc.name },
+		callback(r) {
+			const total_advance = (r.message && r.message.total_available_advance) || 0;
+			build_completion_dialog(frm, total_advance);
+		},
+		error() {
+			// Don't let a failed lookup silently swallow the click — fall back
+			// to the SO's own advance_collected so the dialog still opens.
+			build_completion_dialog(frm, frm.doc.advance_collected || 0);
+		},
+	});
+}
+
+function build_completion_dialog(frm, total_advance) {
 	// Build item checkboxes
 	const item_fields = (frm.doc.items || []).map((item, idx) => ({
 		fieldname: `item_${idx}`,
@@ -579,7 +598,7 @@ function show_completion_dialog(frm) {
 				fieldname: "advance_paid",
 				fieldtype: "Currency",
 				label: __("Advance Paid"),
-				default: frm.doc.advance_collected || 0,
+				default: total_advance,
 				read_only: 1,
 			},
 			{
@@ -590,7 +609,7 @@ function show_completion_dialog(frm) {
 				fieldname: "payment_amount",
 				fieldtype: "Currency",
 				label: __("Payment Amount Now"),
-				default: (frm.doc.grand_total || 0) - (frm.doc.advance_collected || 0),
+				default: Math.max(0, (frm.doc.grand_total || 0) - total_advance),
 			},
 			{
 				fieldname: "mode_of_payment",
@@ -708,7 +727,7 @@ function show_completion_dialog(frm) {
 	// Helper to recalculate payment amount when discount changes
 	function recalc_payment() {
 		const grand = frm.doc.grand_total || 0;
-		const advance = frm.doc.advance_collected || 0;
+		const advance = total_advance;
 		const dtype = d.get_value("discount_type");
 		let disc = 0;
 		if (dtype === "Percentage") {
