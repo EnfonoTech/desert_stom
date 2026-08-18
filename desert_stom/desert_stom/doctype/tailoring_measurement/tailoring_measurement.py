@@ -4,10 +4,12 @@ import frappe
 from frappe.model.document import Document
 
 PER_ITEM_FIELDS = [
+	"garment_type",
 	"length", "shoulder", "sleeve_length", "loose_1", "loose_2",
 	"bottom", "bottom_size", "sleeve_loose", "shoulder_alt", "sleeve_alt",
 	"collar_style", "collar_type", "neck_style", "neck_type",
 	"hip", "hip_type", "special_button",
+	"bt_waist", "bt_length", "bt_hip", "bt_loose", "bt_style",
 	"custom_stitching_type_", "custom_kally_piece_",
 	"custom_sleeve_loose_2", "custom_sleeve_loose_3", "custom_sleeve_loose_3_copy",
 	"custom_collar_length", "custom_neck_width",
