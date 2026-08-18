@@ -222,21 +222,21 @@
    "fieldname": "length",
    "fieldtype": "Float",
    "label": "Length (cm)",
-   "reqd": 1,
+   "mandatory_depends_on": "eval:doc.garment_type != \"Bottom\"",
    "precision": "2"
   },
   {
    "fieldname": "shoulder",
    "fieldtype": "Float",
    "label": "Shoulder (cm)",
-   "reqd": 1,
+   "mandatory_depends_on": "eval:doc.garment_type != \"Bottom\"",
    "precision": "2"
   },
   {
    "fieldname": "sleeve_length",
    "fieldtype": "Float",
    "label": "Sleeve Length (cm)",
-   "reqd": 1,
+   "mandatory_depends_on": "eval:!['Bottom', 'Medical Uniform'].includes(doc.garment_type)",
    "precision": "2"
   },
   {
@@ -247,21 +247,21 @@
    "fieldname": "loose_1",
    "fieldtype": "Float",
    "label": "Loose 1 (cm)",
-   "reqd": 1,
+   "mandatory_depends_on": "eval:!['Bottom', 'Medical Uniform'].includes(doc.garment_type)",
    "precision": "2"
   },
   {
    "fieldname": "loose_2",
    "fieldtype": "Float",
    "label": "Loose 2 (cm)",
-   "reqd": 1,
+   "mandatory_depends_on": "eval:!['Bottom', 'Medical Uniform'].includes(doc.garment_type)",
    "precision": "2"
   },
   {
    "fieldname": "bottom",
    "fieldtype": "Float",
    "label": "Bottom (cm)",
-   "reqd": 1,
+   "mandatory_depends_on": "eval:!['Bottom', 'Medical Uniform'].includes(doc.garment_type)",
    "precision": "2"
   },
   {

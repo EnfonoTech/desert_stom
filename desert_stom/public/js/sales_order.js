@@ -270,6 +270,7 @@ function show_measurement_dialog(frm) {
 				phone_no: frm.doc.customer_phone || "",
 				promise_date: frm.doc.delivery_date,
 				delivery_date: frm.doc.delivery_date,
+				custom_branch: frm.doc.custom_branch,
 			});
 
 			// After routing, populate child table + copy previous measurements

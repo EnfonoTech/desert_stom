@@ -75,10 +75,12 @@ function apply_garment_config(frm) {
 
 
 var PER_ITEM_FIELDS = [
+	"garment_type",
 	"length", "shoulder", "sleeve_length", "loose_1", "loose_2",
 	"bottom", "bottom_size", "sleeve_loose", "shoulder_alt", "sleeve_alt",
 	"collar_style", "collar_type", "neck_style", "neck_type",
 	"hip", "hip_type", "special_button",
+	"bt_waist", "bt_length", "bt_hip", "bt_loose", "bt_style",
 	"custom_stitching_type_", "custom_kally_piece_",
 	"custom_sleeve_loose_2", "custom_sleeve_loose_3", "custom_sleeve_loose_3_copy",
 	"custom_collar_length", "custom_neck_width",
@@ -135,6 +137,10 @@ frappe.ui.form.on("Tailoring Measurement", {
 		load_from_json(frm);
 		frm._previous_cloth = frm.doc.cloth_name || "";
 
+		// Re-apply now that this item's own garment_type has been loaded
+		// (may differ from whatever the document-level field held before).
+		apply_garment_config(frm);
+
 		// Show item indicator
 		inject_item_indicator(frm);
 
@@ -150,8 +156,14 @@ frappe.ui.form.on("Tailoring Measurement", {
 		// Save previous item's measurements
 		save_current_to_json(frm);
 
-		// Load new item's measurements
+		// Load new item's measurements — including its own garment_type,
+		// now that garment_type is tracked per item too.
 		load_from_json(frm);
+
+		// Re-sync required/hidden fields for THIS item's garment type.
+		// Must run after load_from_json, not before — otherwise it would
+		// apply the previous item's garment_type instead of this one's.
+		apply_garment_config(frm);
 
 		// Update tracker
 		frm._previous_cloth = frm.doc.cloth_name || "";
@@ -160,10 +172,15 @@ frappe.ui.form.on("Tailoring Measurement", {
 		update_progress(frm);
 		update_diagram_labels(frm);
 		inject_item_indicator(frm);
+
+		// This item's own per-item style values just got loaded above —
+		// show those, not whatever the previous item had selected.
+		refresh_style_preview(frm);
 	},
 
 	garment_type(frm) {
 		apply_garment_config(frm);
+		refresh_style_preview(frm);
 	},
 
 	sales_order(frm) {
@@ -229,13 +246,21 @@ function load_from_json(frm) {
 		data = {};
 	}
 
+	var has_entry = data.hasOwnProperty(key);
 	var item_data = data[key] || {};
 
 	for (var i = 0; i < PER_ITEM_FIELDS.length; i++) {
 		var field = PER_ITEM_FIELDS[i];
 		var val = item_data[field];
-		if (val !== undefined && val !== null) {
+		if (val !== undefined && val !== null && val !== "") {
 			frm.doc[field] = val;
+		} else if (field === "garment_type" && has_entry) {
+			// This item already has a saved entry, just from before per-item
+			// garment_type tracking existed — keep whatever is currently
+			// displayed (e.g. loaded from the document itself) instead of
+			// wiping it. A brand-new item (no entry at all) falls through
+			// to the reset branch below instead, so it doesn't inherit
+			// whatever the previously active item's garment_type was.
 		} else {
 			var df = frm.fields_dict[field] && frm.fields_dict[field].df;
 			if (df && (df.fieldtype === "Float" || df.fieldtype === "Int" || df.fieldtype === "Currency")) {
@@ -496,11 +521,29 @@ var STYLE_PREVIEW_FIELDS = [
 	["custom_side_pocket_accessories_if_any", "Side Pocket Accessories"],
 ];
 
+// Keep "Selected Styles" in sync no matter how a style field was changed —
+// via the visual image popup, or by typing/picking directly in the link
+// field itself (which didn't refresh the preview before this).
+STYLE_PREVIEW_FIELDS.forEach(function (f) {
+	frappe.ui.form.on("Tailoring Measurement", f[0], function (frm) {
+		refresh_style_preview(frm);
+	});
+});
+
 function refresh_style_preview(frm) {
 	if (!frm.fields_dict.style_preview_html) return;
 
 	var selected = STYLE_PREVIEW_FIELDS
-		.filter(function(f) { return frm.doc[f[0]]; })
+		.filter(function(f) {
+			if (!frm.doc[f[0]]) return false;
+			// Skip fields that are currently hidden (their section is not
+			// relevant for this garment_type, e.g. Thobe Model on a Bottom
+			// item) — apply_garment_config() already hides those sections,
+			// this just keeps the preview in sync with what's actually shown.
+			var field = frm.fields_dict[f[0]];
+			if (!field || !field.wrapper) return true;
+			return $(field.wrapper).is(":visible");
+		})
 		.map(function(f) { return { fieldname: f[0], label: f[1], value: frm.doc[f[0]] }; });
 
 	if (!selected.length) {
@@ -648,6 +691,7 @@ function show_db_visual_popup(frm, fieldname, title, category, doctype, fallback
 				$overlay.find(".vo-catalog-card").off("click").on("click", function() {
 					var val = $(this).data("value");
 					frm.set_value(fieldname, val || null);
+					refresh_style_preview(frm);
 					$overlay.remove();
 				});
 			}
