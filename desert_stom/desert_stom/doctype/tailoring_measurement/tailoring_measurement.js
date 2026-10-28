@@ -125,6 +125,14 @@ frappe.ui.form.on("Tailoring Measurement", {
 		update_cloth_name_options(frm);
 		setup_visual_popups(frm);
 
+		// Frappe gives Float inputs inputmode="numeric" (inherited from Int),
+		// which hides the decimal point key on the iPhone keypad
+		Object.values(frm.fields_dict).forEach(function(field) {
+			if (field.df.fieldtype === "Float" && field.$input) {
+				field.$input.attr("inputmode", "decimal");
+			}
+		});
+
 		// Auto-select first cloth if none selected
 		if (!frm.doc.cloth_name && frm.doc.measurement_items && frm.doc.measurement_items.length) {
 			var firstName = frm.doc.measurement_items[0].item_name || frm.doc.measurement_items[0].item_code;
