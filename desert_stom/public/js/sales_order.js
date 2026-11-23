@@ -15,6 +15,9 @@ frappe.ui.form.on("Sales Order", {
 			});
 		}
 
+		// Phone-first customer entry (ENFA-782): search / create customer by phone
+		setup_phone_customer_search(frm);
+
 		// Relocate selling_price_list above items table
 		if (frm.fields_dict.selling_price_list && frm.fields_dict.items) {
 			var $pl = $(frm.fields_dict.selling_price_list.wrapper);
@@ -993,4 +996,170 @@ function show_return_dialog(frm) {
 	});
 
 	d.show();
+}
+
+
+// ---------------------------------------------------------------------------
+// Phone-first customer entry (ENFA-782)
+// Counter staff identify customers by phone. Typing in Customer Phone lists the
+// matching customers (same as the Customer box) and offers "Create a new
+// Customer" with the typed number already in the customer's Phone.
+// ---------------------------------------------------------------------------
+
+// Digits used for matching: no spaces/dashes, no country code, no leading 0,
+// so 0533804408, 533804408 and +966 53 380 4408 all find the same customer.
+function ds_phone_search_key(txt) {
+	return String(txt || "")
+		.replace(/\D/g, "")
+		.replace(/^(00966|966)/, "")
+		.replace(/^0+/, "");
+}
+
+// True when the typed text is a phone number and not a customer name.
+function ds_looks_like_phone(txt) {
+	txt = String(txt || "").trim();
+	return /^\+?[\d\s\-()]+$/.test(txt) && txt.replace(/\D/g, "").length >= 7;
+}
+
+function ds_open_new_customer(frm, phone) {
+	phone = String(phone || "").trim();
+	// Prefill the customer's Phone (custom_phone) in the quick entry; the name stays empty
+	frappe.route_options = { custom_phone: phone };
+	frappe._from_link = null;
+	frappe.ui.form.make_quick_entry("Customer", (doc) => {
+		return frappe.run_serially([
+			() => frm.set_value("customer_phone", doc.custom_phone || phone),
+			() => frm.set_value("customer", doc.name),
+		]);
+	});
+}
+
+function setup_phone_customer_search(frm) {
+	// 1. Customer box: a typed phone number + "Create a new Customer" goes to Phone, not Customer Name
+	var customer_ctl = frm.fields_dict.customer;
+	if (customer_ctl && customer_ctl.new_doc && !customer_ctl._ds_phone_new_doc) {
+		customer_ctl._ds_phone_new_doc = true;
+		var standard_new_doc = customer_ctl.new_doc;
+		customer_ctl.new_doc = function () {
+			var typed = this.get_label_value ? this.get_label_value() : this.get_input_value();
+			if (ds_looks_like_phone(typed)) {
+				ds_open_new_customer(frm, typed);
+				return false;
+			}
+			return standard_new_doc.apply(this, arguments);
+		};
+	}
+
+	// 2. Customer Phone box: dropdown of matching customers + "Create a new Customer"
+	var ctl = frm.fields_dict.customer_phone;
+	var AwesompleteClass = window.Awesomplete
+		|| (customer_ctl && customer_ctl.awesomplete && customer_ctl.awesomplete.constructor);
+	if (!ctl || !ctl.$input || ctl._ds_phone_search || !AwesompleteClass) return;
+	ctl._ds_phone_search = true;
+
+	var NEW_CUSTOMER = "__ds_new_customer__";
+	var rows = {};
+	var request_no = 0;
+
+	var awesomplete = new AwesompleteClass(ctl.$input.get(0), {
+		minChars: 0,
+		maxItems: 20,
+		autoFirst: true,
+		list: [],
+		filter: function () {
+			return true;
+		},
+		sort: function () {
+			return 0;
+		},
+		data: function (item) {
+			return { label: item.label, value: item.value };
+		},
+		item: function (item) {
+			var html;
+			if (item.value === NEW_CUSTOMER) {
+				html = "<span class='link-option'><i class='fa fa-plus' style='margin-right: 5px;'></i> "
+					+ __("Create a new {0}", [__("Customer")]) + "</span>";
+			} else {
+				var row = rows[item.value] || {};
+				html = "<strong>" + frappe.utils.escape_html(row.custom_phone || row.mobile_no || "") + "</strong>"
+					+ '<br><span class="small">' + frappe.utils.escape_html(row.customer_name || row.name || "") + "</span>";
+			}
+			// same markup as the standard Link dropdown; it needs its own click handler
+			return $('<div role="option">')
+				.on("click", (event) => {
+					awesomplete.select(event.currentTarget, event.currentTarget);
+				})
+				.prop("aria-selected", "false")
+				.html("<p>" + html + "</p>")
+				.get(0);
+		},
+		replace: function () {
+			// the input is set through frm.set_value in awesomplete-select below
+		},
+	});
+
+	ctl.$input.on(
+		"input",
+		frappe.utils.debounce(function (e) {
+			var typed = e.target.value;
+			var key = ds_phone_search_key(typed);
+			if (frm.doc.docstatus !== 0 || key.length < 3) {
+				awesomplete.list = [];
+				awesomplete.close();
+				return;
+			}
+			var this_request = ++request_no;
+			frappe.call({
+				method: "frappe.client.get_list",
+				type: "GET",
+				no_spinner: true,
+				args: {
+					doctype: "Customer",
+					fields: ["name", "customer_name", "custom_phone", "mobile_no"],
+					filters: { disabled: 0 },
+					or_filters: [
+						["custom_phone", "like", "%" + key + "%"],
+						["mobile_no", "like", "%" + key + "%"],
+					],
+					order_by: "modified desc",
+					limit_page_length: 10,
+				},
+				callback: function (r) {
+					// ignore answers for text the user has already changed
+					if (this_request !== request_no || !ctl.$input.is(":focus")) return;
+					rows = {};
+					var list = (r.message || []).map(function (row) {
+						rows[row.name] = row;
+						return { label: row.customer_name || row.name, value: row.name };
+					});
+					if (ds_looks_like_phone(typed) && frappe.model.can_create("Customer")) {
+						list.push({ label: __("Create a new {0}", [__("Customer")]), value: NEW_CUSTOMER });
+					}
+					awesomplete.list = list;
+					awesomplete.evaluate();
+				},
+			});
+		}, 300)
+	);
+
+	ctl.$input.on("awesomplete-select", function (e) {
+		var o = e.originalEvent;
+		var value = o.text && o.text.value;
+		var typed = ctl.$input.val();
+		o.preventDefault();
+		awesomplete.close();
+		if (frm.doc.docstatus !== 0) return;
+
+		if (value === NEW_CUSTOMER) {
+			ds_open_new_customer(frm, typed);
+			return;
+		}
+		var row = rows[value];
+		if (!row) return;
+		frappe.run_serially([
+			() => frm.set_value("customer_phone", row.custom_phone || row.mobile_no || typed),
+			() => frm.set_value("customer", row.name),
+		]);
+	});
 }
